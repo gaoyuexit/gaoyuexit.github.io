@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="新博客以后在这里更新博客了, 在这里记录一些开发经验和一些生活点滴, 以前的文章点击这里, 恩, 就酱…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="年后开工">
+<meta property="og:url" content="http://example.com/2018/02/25/start/index.html">
+<meta property="og:site_name" content="Gao先生的小屋">
+<meta property="og:description" content="新博客以后在这里更新博客了, 在这里记录一些开发经验和一些生活点滴, 以前的文章点击这里, 恩, 就酱…">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-02-25T07:36:41.000Z">
+<meta property="article:modified_time" content="2018-02-25T07:36:41.000Z">
+<meta property="article:author" content="Gao先生">
+<meta property="article:tag" content="Live">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/02/25/start/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>年后开工 | Gao先生的小屋</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  
+   <!--看板娘-->
+  <script src="https://cdn.jsdelivr.net/gh/gaoyuexit/live2d-widget@latest/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <!--看板娘-->
+
+  <!--pjax：防止跳转页面音乐暂停-->
+  <script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script> 
+  <!--pjax：防止跳转页面音乐暂停-->
+
+<link rel="alternate" href="/atom.xml" title="Gao先生的小屋" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Gao先生的小屋</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">碎碎念</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/25/start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kaka_avatar.gif">
+      <meta itemprop="name" content="Gao先生">
+      <meta itemprop="description" content="随便写点东西~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Gao先生的小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          年后开工
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-25 15:36:41" itemprop="dateCreated datePublished" datetime="2018-02-25T15:36:41+08:00">2018-02-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Live/" itemprop="url" rel="index"><span itemprop="name">Live</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/02/25/start/" class="post-meta-item leancloud_visitors" data-flag-title="年后开工" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/02/25/start/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/02/25/start/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="新博客"><a href="#新博客" class="headerlink" title="新博客"></a>新博客</h2><p>以后在这里更新博客了, 在这里记录一些开发经验和一些生活点滴, 以前的文章点击<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vdS9jNGE0NTA1YmVmNGY=">这里<i class="fa fa-external-link-alt"></i></span>, 恩, 就酱…</p>
+<span id="more"></span>
+
+<h2 id="新Mac"><a href="#新Mac" class="headerlink" title="新Mac"></a>新Mac</h2><p>年假马上过去了, 年后开工, 买台新电脑犒劳一下自己. <code>2w</code>大洋, 肉疼~~<br>不多说, 赶紧配置起来 ^_^</p>
+<h2 id="安装必备软件"><a href="#安装必备软件" class="headerlink" title="安装必备软件"></a>安装必备软件</h2><ol>
+<li><p>输入法: 搜狗输入法</p>
+</li>
+<li><p>Shadowsocks-NG</p>
+<blockquote>
+<p>这个不多说, 必备</p>
+</blockquote>
+</li>
+<li><p>Chrome浏览器 </p>
+<blockquote>
+<p>安装<code>JSON Viewer</code>插件, json格式化工具</p>
+</blockquote>
+</li>
+<li><p>Alfred3 </p>
+<blockquote>
+<p>效率神器 配置所在的路径<code>~/Library/Application Support/Alfred 2/Alfred.alfredpreferences</code>, 从老电脑拷贝到新电脑<span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3F1ZXN0aW9uLzM5MDk4Nzk5">Alfred在不同电脑上同步自定义设置<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+</li>
+<li><p>iTerm </p>
+<blockquote>
+<p>配合<code>ZSH</code> 个性化设置</p>
+</blockquote>
+</li>
+<li><p>CleanMyMac 3</p>
+<blockquote>
+<p>清理MAC</p>
+</blockquote>
+</li>
+<li><p>Teamviewer</p>
+<blockquote>
+<p>远程协助</p>
+</blockquote>
+</li>
+<li><p>Charles</p>
+<blockquote>
+<p>抓包工具</p>
+</blockquote>
+</li>
+<li><p>Sketch</p>
+<blockquote>
+<p>UI设计必备</p>
+</blockquote>
+</li>
+<li><p>Xcode</p>
+<blockquote>
+<p>iOS开发必备</p>
+</blockquote>
+</li>
+<li><p>微信开发者工具 </p>
+</li>
+<li><p>Sourcetree</p>
+<blockquote>
+<p>git可视化工具 </p>
+</blockquote>
+</li>
+<li><p>Phpstorm <span class="exturl" data-url="aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdm9rZV8vYXJ0aWNsZS9kZXRhaWxzLzc4Nzk0NTY3">激活<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>Reveal</p>
+<blockquote>
+<p>iPhone app 层级查看</p>
+</blockquote>
+</li>
+<li><p>Mweb </p>
+<blockquote>
+<p>心仪的<code>Markdown</code>编辑器</p>
+</blockquote>
+</li>
+<li><p>Sequel Pro </p>
+<blockquote>
+<p>数据库工具</p>
+</blockquote>
+</li>
+<li><p>LICEcap /  Snip</p>
+</li>
+<li><p>ThemeEngine </p>
+<blockquote>
+<p>提取iOS assets.car中的图片</p>
+</blockquote>
+</li>
+<li><p>PaintCode </p>
+</li>
+<li><p>XMind</p>
+</li>
+<li><p>(Be Focused Pro)番茄闹钟</p>
+</li>
+<li><p>WWDC</p>
+</li>
+<li><p>印象笔记</p>
+</li>
+<li><p>播放器 Blu-ray Player Pro</p>
+</li>
+<li><p>Dropbox 配置代理服务器</p>
+</li>
+</ol>
+<h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><ol>
+<li><p>配置SSH <span class="exturl" data-url="aHR0cDovL3d3dy5jbmJsb2dzLmNvbS9heXNlZWluZy9wLzQ2NDYyOTIuaHRtbA==">多台电脑公用一个SSH<i class="fa fa-external-link-alt"></i></span></p>
+<blockquote>
+<p>拷贝旧电脑的 .ssh 到新电脑中</p>
+</blockquote>
+</li>
+<li><p>安装<code>Homebrew</code>和<code>wget</code> <span class="exturl" data-url="aHR0cHM6Ly9icmV3LnNoLw==">步骤<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>npm</code> <span class="exturl" data-url="aHR0cHM6Ly93d3cubnBtanMuY29tLmNuL2dldHRpbmctc3RhcnRlZC9pbnN0YWxsaW5nLW5vZGUv">步骤<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>mysql</code> <span class="exturl" data-url="aHR0cHM6Ly9kZXYubXlzcWwuY29tL2Rvd25sb2Fkcy9teXNxbC8=">dmg安装<i class="fa fa-external-link-alt"></i></span> / <span class="exturl" data-url="aHR0cHM6Ly9hYWFhYWFzaHUuZ2l0Ym9va3MuaW8vbWFjLWRldi1zZXR1cC9jb250ZW50L015U3FsL2luZGV4Lmh0bWw=">brew安装<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>Composer</code> <span class="exturl" data-url="aHR0cDovL2RvY3MucGhwY29tcG9zZXIuY29tLzAwLWludHJvLmh0bWw=">步骤<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>laravel</code> <span class="exturl" data-url="aHR0cHM6Ly9kLmxhcmF2ZWwtY2hpbmEub3JnL2RvY3MvNS41L2luc3RhbGxhdGlvbg==">步骤<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>cocopods</code> <span class="exturl" data-url="aHR0cHM6Ly9ndWlkZXMuY29jb2Fwb2RzLm9yZy91c2luZy9nZXR0aW5nLXN0YXJ0ZWQuaHRtbA==">步骤<i class="fa fa-external-link-alt"></i></span>  意外发现根目录下的.cocopods仓库中的目录和以前版本不同了</p>
+</li>
+<li><p>导出钥匙串中的证书/p12到新电脑中</p>
+</li>
+<li><p>同步备忘录中的文章信息</p>
+</li>
+</ol>
+<h2 id="配置iterm2-zsh-参考"><a href="#配置iterm2-zsh-参考" class="headerlink" title="配置iterm2/ zsh 参考"></a>配置iterm2/ zsh 参考</h2><p><span class="exturl" data-url="aHR0cHM6Ly9zZWdtZW50ZmF1bHQuY29tL2EvMTE5MDAwMDAwOTkxOTcxNA==">https://segmentfault.com/a/1190000009919714<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly9zZWdtZW50ZmF1bHQuY29tL2EvMTE5MDAwMDAxMDUxODE5NQ==">https://segmentfault.com/a/1190000010518195<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly9sYW9zaHV0ZXJyeS5naXRib29rcy5pby9tYWNfb3Nfc2V0dXBfZ3VpZGUvY29udGVudC80X1pzaENvbmZpZy5odG1s">https://laoshuterry.gitbooks.io/mac_os_setup_guide/content/4_ZshConfig.html<i class="fa fa-external-link-alt"></i></span><br>ZSH的主题参考 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3JvYmJ5cnVzc2VsbC9vaC1teS16c2gvd2lraS9UaGVtZXM=">https://github.com/robbyrussell/oh-my-zsh/wiki/Themes<i class="fa fa-external-link-alt"></i></span></p>
+<blockquote>
+<p>bash和zsh互相切换</p>
+</blockquote>
+<ul>
+<li>切换bash</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切换zsh</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s &#x2F;bin&#x2F;zsh</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="关于环境变量"><a href="#关于环境变量" class="headerlink" title="关于环境变量"></a>关于环境变量</h2><p><span class="exturl" data-url="aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQxNjEwMS9hcnRpY2xlL2RldGFpbHMvNTQ2MTg2MjE=">环境变量<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vc2hpbmVxaXVqdWFuL3AvNDY5MzQwNC5odG1s">MAC设置环境变量path的几种方法<i class="fa fa-external-link-alt"></i></span></p>
+<p>1）/etc/paths （全局建议修改这个文件 ）<br>编辑 paths，将环境变量添加到 paths文件中 ，一行一个路径<br>Hint：输入环境变量时，不用一个一个地输入，只要拖动文件夹到 Terminal 里就可以了。</p>
+<p>2）/etc/profile （建议不修改这个文件 ）<br>全局（公有）配置，不管是哪个用户，登录时都会读取该文件。</p>
+<p>3）/etc/bashrc （一般在这个文件中添加系统级环境变量）<br>全局（公有）配置，bash shell执行时，不管是何种方式，都会读取此文件。</p>
+<p>4）<br>1.创建一个文件：<br>sudo touch /etc/paths.d/mysql<br>2.用 vim 打开这个文件（如果是以 open -t 的方式打开，则不允许编辑）：<br>sudo vim /etc/paths.d/mysql<br>3.编辑该文件，键入路径并保存（关闭该 Terminal 窗口并重新打开一个，就能使用 mysql 命令了）<br>/usr/local/mysql/bin<br>这样可以自己生成新的文件，不用把变量全都放到 paths 一个文件里，方便管理。</p>
+<blockquote>
+<p>.d文件不常见，有可能是某个应用自己特有的文件，.d也可能是default的意思,表示默认（配置）文件，还有可能是Dynamic的意思，表示动态意义的文件。<br>带.d的文件夹比较常见，比如/etc/rc3.d、/etc/dev.d表示文件加下有系统缺省的配置文件。</p>
+</blockquote>
+<p>profile、bash_profile、bashrc文件的作用与区别参考<br><span class="exturl" data-url="aHR0cHM6Ly9pdGJpbHUuY29tL2xpbnV4L21hbmFnZW1lbnQvTnlJOWNqaXBsLmh0bWw=">https://itbilu.com/linux/management/NyI9cjipl.html<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly9qaW5neWFuLmJhaWR1LmNvbS9hcnRpY2xlL2YyNWVmMjU0YThmNGE2NDgyZDFiODI2MS5odG1s">https://jingyan.baidu.com/article/f25ef254a8f4a6482d1b8261.html<i class="fa fa-external-link-alt"></i></span></p>
+
+    </div>
+
+    
+    
+    
+      
+
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/reward_wechatpay.png" alt="Gao先生 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/reward_alipay.png" alt="Gao先生 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Gao先生
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2018/02/25/start/" title="年后开工">http://example.com/2018/02/25/start/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/channel_wechat.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/channel_qq.jpg">
+            <span class="icon">
+              <i class="fab fa-qq"></i>
+            </span>
+
+            <span class="label">QQ</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Live/" rel="tag"># Live</a>
+          </div>
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>            
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%8D%9A%E5%AE%A2"><span class="nav-number">1.</span> <span class="nav-text">新博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0Mac"><span class="nav-number">2.</span> <span class="nav-text">新Mac</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E5%A4%87%E8%BD%AF%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">安装必备软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="nav-number">4.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEiterm2-zsh-%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">配置iterm2&#x2F; zsh 参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">6.</span> <span class="nav-text">关于环境变量</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->          
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Gao先生"
+      src="/images/kaka_avatar.gif">
+  <p class="site-author-name" itemprop="name">Gao先生</p>
+  <div class="site-description" itemprop="description">随便写点东西~</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dhb3l1ZXhpdA==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gaoyuexit"><i class="fab fa-github fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmdhb3l1ZXhpdEAxNjMuY29t" title="E-Mail → mailto:gaoyuexit@163.com"><i class="fa fa-envelope fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93ZWliby5jb20vdS82MDE5NjkzNzYz" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;6019693763"><i class="fab fa-weibo fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vdS9jNGE0NTA1YmVmNGY=" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;c4a4505bef4f"><i class="fa fa-book fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS94aWFvLXl1LTE1LTk0LTI5" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;xiao-yu-15-94-29"><i class="fab fa-zhihu fa-fw"></i></span>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <span class="exturl" data-url="aHR0cHM6Ly9kcmF2ZW5lc3MubWU=" title="https:&#x2F;&#x2F;draveness.me">Draveness</span>
+        </li>
+        <li class="links-of-blogroll-item">
+          <span class="exturl" data-url="aHR0cDovL3l1bGluZ3RpYW54aWEuY29t" title="http:&#x2F;&#x2F;yulingtianxia.com">玉令天下</span>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+
+       <!--网易云插件-->
+       <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=463352828&auto=0&height=66"></iframe>
+       <!--网易云插件-->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gao先生</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">2k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+  <script data-pjax>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'kDEeIs12GHboNSFKDoAmWkK1-gzGzoHsz',
+      appKey     : 'lVAQOyuMlCw5FkEVWCtRKl5R',
+      placeholder: "请写下您的评论，如果您想及时收到回复并被告知，请在上方填写您的昵称与个人邮箱",
+      avatar     : 'wavatar',
+      meta       : guest,
+      pageSize   : '15' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+    </div>
+</body>
+</html>

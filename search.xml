@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>年后开工</title>
+    <url>/2018/02/25/start/</url>
+    <content><![CDATA[<h2 id="新博客"><a href="#新博客" class="headerlink" title="新博客"></a>新博客</h2><p>以后在这里更新博客了, 在这里记录一些开发经验和一些生活点滴, 以前的文章点击<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vdS9jNGE0NTA1YmVmNGY=">这里<i class="fa fa-external-link-alt"></i></span>, 恩, 就酱…</p>
+<span id="more"></span>
+
+<h2 id="新Mac"><a href="#新Mac" class="headerlink" title="新Mac"></a>新Mac</h2><p>年假马上过去了, 年后开工, 买台新电脑犒劳一下自己. <code>2w</code>大洋, 肉疼~~<br>不多说, 赶紧配置起来 ^_^</p>
+<h2 id="安装必备软件"><a href="#安装必备软件" class="headerlink" title="安装必备软件"></a>安装必备软件</h2><ol>
+<li><p>输入法: 搜狗输入法</p>
+</li>
+<li><p>Shadowsocks-NG</p>
+<blockquote>
+<p>这个不多说, 必备</p>
+</blockquote>
+</li>
+<li><p>Chrome浏览器 </p>
+<blockquote>
+<p>安装<code>JSON Viewer</code>插件, json格式化工具</p>
+</blockquote>
+</li>
+<li><p>Alfred3 </p>
+<blockquote>
+<p>效率神器 配置所在的路径<code>~/Library/Application Support/Alfred 2/Alfred.alfredpreferences</code>, 从老电脑拷贝到新电脑<span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3F1ZXN0aW9uLzM5MDk4Nzk5">Alfred在不同电脑上同步自定义设置<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+</li>
+<li><p>iTerm </p>
+<blockquote>
+<p>配合<code>ZSH</code> 个性化设置</p>
+</blockquote>
+</li>
+<li><p>CleanMyMac 3</p>
+<blockquote>
+<p>清理MAC</p>
+</blockquote>
+</li>
+<li><p>Teamviewer</p>
+<blockquote>
+<p>远程协助</p>
+</blockquote>
+</li>
+<li><p>Charles</p>
+<blockquote>
+<p>抓包工具</p>
+</blockquote>
+</li>
+<li><p>Sketch</p>
+<blockquote>
+<p>UI设计必备</p>
+</blockquote>
+</li>
+<li><p>Xcode</p>
+<blockquote>
+<p>iOS开发必备</p>
+</blockquote>
+</li>
+<li><p>微信开发者工具 </p>
+</li>
+<li><p>Sourcetree</p>
+<blockquote>
+<p>git可视化工具 </p>
+</blockquote>
+</li>
+<li><p>Phpstorm <span class="exturl" data-url="aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdm9rZV8vYXJ0aWNsZS9kZXRhaWxzLzc4Nzk0NTY3">激活<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>Reveal</p>
+<blockquote>
+<p>iPhone app 层级查看</p>
+</blockquote>
+</li>
+<li><p>Mweb </p>
+<blockquote>
+<p>心仪的<code>Markdown</code>编辑器</p>
+</blockquote>
+</li>
+<li><p>Sequel Pro </p>
+<blockquote>
+<p>数据库工具</p>
+</blockquote>
+</li>
+<li><p>LICEcap /  Snip</p>
+</li>
+<li><p>ThemeEngine </p>
+<blockquote>
+<p>提取iOS assets.car中的图片</p>
+</blockquote>
+</li>
+<li><p>PaintCode </p>
+</li>
+<li><p>XMind</p>
+</li>
+<li><p>(Be Focused Pro)番茄闹钟</p>
+</li>
+<li><p>WWDC</p>
+</li>
+<li><p>印象笔记</p>
+</li>
+<li><p>播放器 Blu-ray Player Pro</p>
+</li>
+<li><p>Dropbox 配置代理服务器</p>
+</li>
+</ol>
+<h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><ol>
+<li><p>配置SSH <span class="exturl" data-url="aHR0cDovL3d3dy5jbmJsb2dzLmNvbS9heXNlZWluZy9wLzQ2NDYyOTIuaHRtbA==">多台电脑公用一个SSH<i class="fa fa-external-link-alt"></i></span></p>
+<blockquote>
+<p>拷贝旧电脑的 .ssh 到新电脑中</p>
+</blockquote>
+</li>
+<li><p>安装<code>Homebrew</code>和<code>wget</code> <span class="exturl" data-url="aHR0cHM6Ly9icmV3LnNoLw==">步骤<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>npm</code> <span class="exturl" data-url="aHR0cHM6Ly93d3cubnBtanMuY29tLmNuL2dldHRpbmctc3RhcnRlZC9pbnN0YWxsaW5nLW5vZGUv">步骤<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>mysql</code> <span class="exturl" data-url="aHR0cHM6Ly9kZXYubXlzcWwuY29tL2Rvd25sb2Fkcy9teXNxbC8=">dmg安装<i class="fa fa-external-link-alt"></i></span> / <span class="exturl" data-url="aHR0cHM6Ly9hYWFhYWFzaHUuZ2l0Ym9va3MuaW8vbWFjLWRldi1zZXR1cC9jb250ZW50L015U3FsL2luZGV4Lmh0bWw=">brew安装<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>Composer</code> <span class="exturl" data-url="aHR0cDovL2RvY3MucGhwY29tcG9zZXIuY29tLzAwLWludHJvLmh0bWw=">步骤<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>laravel</code> <span class="exturl" data-url="aHR0cHM6Ly9kLmxhcmF2ZWwtY2hpbmEub3JnL2RvY3MvNS41L2luc3RhbGxhdGlvbg==">步骤<i class="fa fa-external-link-alt"></i></span></p>
+</li>
+<li><p>安装<code>cocopods</code> <span class="exturl" data-url="aHR0cHM6Ly9ndWlkZXMuY29jb2Fwb2RzLm9yZy91c2luZy9nZXR0aW5nLXN0YXJ0ZWQuaHRtbA==">步骤<i class="fa fa-external-link-alt"></i></span>  意外发现根目录下的.cocopods仓库中的目录和以前版本不同了</p>
+</li>
+<li><p>导出钥匙串中的证书/p12到新电脑中</p>
+</li>
+<li><p>同步备忘录中的文章信息</p>
+</li>
+</ol>
+<h2 id="配置iterm2-zsh-参考"><a href="#配置iterm2-zsh-参考" class="headerlink" title="配置iterm2/ zsh 参考"></a>配置iterm2/ zsh 参考</h2><p><span class="exturl" data-url="aHR0cHM6Ly9zZWdtZW50ZmF1bHQuY29tL2EvMTE5MDAwMDAwOTkxOTcxNA==">https://segmentfault.com/a/1190000009919714<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly9zZWdtZW50ZmF1bHQuY29tL2EvMTE5MDAwMDAxMDUxODE5NQ==">https://segmentfault.com/a/1190000010518195<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly9sYW9zaHV0ZXJyeS5naXRib29rcy5pby9tYWNfb3Nfc2V0dXBfZ3VpZGUvY29udGVudC80X1pzaENvbmZpZy5odG1s">https://laoshuterry.gitbooks.io/mac_os_setup_guide/content/4_ZshConfig.html<i class="fa fa-external-link-alt"></i></span><br>ZSH的主题参考 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3JvYmJ5cnVzc2VsbC9vaC1teS16c2gvd2lraS9UaGVtZXM=">https://github.com/robbyrussell/oh-my-zsh/wiki/Themes<i class="fa fa-external-link-alt"></i></span></p>
+<blockquote>
+<p>bash和zsh互相切换</p>
+</blockquote>
+<ul>
+<li>切换bash</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chsh -s &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切换zsh</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chsh -s &#x2F;bin&#x2F;zsh</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="关于环境变量"><a href="#关于环境变量" class="headerlink" title="关于环境变量"></a>关于环境变量</h2><p><span class="exturl" data-url="aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMDQxNjEwMS9hcnRpY2xlL2RldGFpbHMvNTQ2MTg2MjE=">环境变量<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vc2hpbmVxaXVqdWFuL3AvNDY5MzQwNC5odG1s">MAC设置环境变量path的几种方法<i class="fa fa-external-link-alt"></i></span></p>
+<p>1）/etc/paths （全局建议修改这个文件 ）<br>编辑 paths，将环境变量添加到 paths文件中 ，一行一个路径<br>Hint：输入环境变量时，不用一个一个地输入，只要拖动文件夹到 Terminal 里就可以了。</p>
+<p>2）/etc/profile （建议不修改这个文件 ）<br>全局（公有）配置，不管是哪个用户，登录时都会读取该文件。</p>
+<p>3）/etc/bashrc （一般在这个文件中添加系统级环境变量）<br>全局（公有）配置，bash shell执行时，不管是何种方式，都会读取此文件。</p>
+<p>4）<br>1.创建一个文件：<br>sudo touch /etc/paths.d/mysql<br>2.用 vim 打开这个文件（如果是以 open -t 的方式打开，则不允许编辑）：<br>sudo vim /etc/paths.d/mysql<br>3.编辑该文件，键入路径并保存（关闭该 Terminal 窗口并重新打开一个，就能使用 mysql 命令了）<br>/usr/local/mysql/bin<br>这样可以自己生成新的文件，不用把变量全都放到 paths 一个文件里，方便管理。</p>
+<blockquote>
+<p>.d文件不常见，有可能是某个应用自己特有的文件，.d也可能是default的意思,表示默认（配置）文件，还有可能是Dynamic的意思，表示动态意义的文件。<br>带.d的文件夹比较常见，比如/etc/rc3.d、/etc/dev.d表示文件加下有系统缺省的配置文件。</p>
+</blockquote>
+<p>profile、bash_profile、bashrc文件的作用与区别参考<br><span class="exturl" data-url="aHR0cHM6Ly9pdGJpbHUuY29tL2xpbnV4L21hbmFnZW1lbnQvTnlJOWNqaXBsLmh0bWw=">https://itbilu.com/linux/management/NyI9cjipl.html<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly9qaW5neWFuLmJhaWR1LmNvbS9hcnRpY2xlL2YyNWVmMjU0YThmNGE2NDgyZDFiODI2MS5odG1s">https://jingyan.baidu.com/article/f25ef254a8f4a6482d1b8261.html<i class="fa fa-external-link-alt"></i></span></p>
+]]></content>
+      <categories>
+        <category>Live</category>
+      </categories>
+      <tags>
+        <tag>Live</tag>
+      </tags>
+  </entry>
+</search>
