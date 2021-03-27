@@ -3,7 +3,9 @@
   <entry>
     <title>博客折腾记录</title>
     <url>/2018/03/27/hexo-next-theme/</url>
-    <content><![CDATA[<p>&gt; <em>最近又折腾了一下, 更换了主题</em></p>
+    <content><![CDATA[<blockquote>
+<p><em>最近又折腾了一下博客, 更换了主题</em></p>
+</blockquote>
 <span id="more"></span>
 
 <h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><h3 id="配置主题文件"><a href="#配置主题文件" class="headerlink" title="配置主题文件"></a>配置主题文件</h3><p>根据 Hexo 官方的推荐，不要直接修改主题的配置文件</p>
@@ -67,7 +69,7 @@
 
 
 
-<h2 id="看板娘"><a href="#看板娘" class="headerlink" title="看板娘"></a>看板娘</h2><h3 id="简易版-hexo-helper-live2d"><a href="#简易版-hexo-helper-live2d" class="headerlink" title="简易版**hexo-helper-live2d**"></a>简易版**<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0VZSE4vaGV4by1oZWxwZXItbGl2ZTJk">hexo-helper-live2d<i class="fa fa-external-link-alt"></i></span>**</h3><h3 id="功能版-live2d-widget"><a href="#功能版-live2d-widget" class="headerlink" title="功能版**live2d-widget**"></a>功能版**<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N0ZXZlbmpvZXpoYW5nL2xpdmUyZC13aWRnZXQ=">live2d-widget<i class="fa fa-external-link-alt"></i></span>**</h3><p>以<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N0ZXZlbmpvZXpoYW5nL2xpdmUyZC13aWRnZXQ=">live2d-widget<i class="fa fa-external-link-alt"></i></span>为例, 先fork项目到自己的github仓库, 方便后续自己定制</p>
+<h2 id="看板娘"><a href="#看板娘" class="headerlink" title="看板娘"></a>看板娘</h2><h3 id="简易版hexo-helper-live2d"><a href="#简易版hexo-helper-live2d" class="headerlink" title="简易版hexo-helper-live2d"></a>简易版<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0VZSE4vaGV4by1oZWxwZXItbGl2ZTJk">hexo-helper-live2d<i class="fa fa-external-link-alt"></i></span></h3><h3 id="功能版live2d-widget"><a href="#功能版live2d-widget" class="headerlink" title="功能版live2d-widget"></a>功能版<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N0ZXZlbmpvZXpoYW5nL2xpdmUyZC13aWRnZXQ=">live2d-widget<i class="fa fa-external-link-alt"></i></span></h3><p>以<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N0ZXZlbmpvZXpoYW5nL2xpdmUyZC13aWRnZXQ=">live2d-widget<i class="fa fa-external-link-alt"></i></span>为例, 先fork项目到自己的github仓库, 方便后续自己定制</p>
 <p>在/themes/next/layout/_layout.swig的<code>head</code>标签内添加如下代码</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/gh/gaoyuexit/live2d-widget@latest/autoload.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
