@@ -498,6 +498,9 @@
   
 
 
+
+
+
 <script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/gh/HCLonely/Valine@latest/dist/Valine.min.js', () => {
@@ -520,7 +523,10 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       lang       : '' || 'zh-cn',
       path       : location.pathname,
       recordIP   : true,
-      serverURLs : ''
+      serverURLs : '',
+      enableQQ   : true,
+      master     : ["224aac5c578e8f5bb8513752062caa64", "60b097806e8b68f8bf4ea2cf23e26c18", "2273877f22833cbf647422b61310611e", "36aabe8d1aa144a1043b2bb825622d94"],
+      friends    : ["3c93f01366fbc8bd5e7b10643e30375a"]
     });
   }, window.Valine);
 });
