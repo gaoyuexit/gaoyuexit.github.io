@@ -3,11 +3,11 @@
   <title>Gao先生的小屋</title>
   
   <subtitle>碎碎念</subtitle>
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="https://gaoyuexit.github.io&#39;/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="https://gaoyuexit.github.io&#39;/"/>
   <updated>2018-03-27T15:36:15.000Z</updated>
-  <id>http://example.com/</id>
+  <id>https://gaoyuexit.github.io&#39;/</id>
   
   <author>
     <name>Gao先生</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>博客折腾小记</title>
-    <link href="http://example.com/2018/03/27/hexo-next-theme/"/>
-    <id>http://example.com/2018/03/27/hexo-next-theme/</id>
+    <link href="https://gaoyuexit.github.io&#39;/2018/03/27/hexo-next-theme/"/>
+    <id>https://gaoyuexit.github.io&#39;/2018/03/27/hexo-next-theme/</id>
     <published>2018-03-27T15:36:15.000Z</published>
     <updated>2018-03-27T15:36:15.000Z</updated>
     
@@ -32,21 +32,21 @@
     
     
     
-    <category term="Blog" scheme="http://example.com/categories/Blog/"/>
+    <category term="Blog" scheme="https://gaoyuexit.github.io&#39;/categories/Blog/"/>
     
     
-    <category term="Blog" scheme="http://example.com/tags/Blog/"/>
+    <category term="Blog" scheme="https://gaoyuexit.github.io&#39;/tags/Blog/"/>
     
-    <category term="Hexo" scheme="http://example.com/tags/Hexo/"/>
+    <category term="Hexo" scheme="https://gaoyuexit.github.io&#39;/tags/Hexo/"/>
     
-    <category term="Next" scheme="http://example.com/tags/Next/"/>
+    <category term="Next" scheme="https://gaoyuexit.github.io&#39;/tags/Next/"/>
     
   </entry>
   
   <entry>
     <title>年后开工</title>
-    <link href="http://example.com/2018/02/25/start/"/>
-    <id>http://example.com/2018/02/25/start/</id>
+    <link href="https://gaoyuexit.github.io&#39;/2018/02/25/start/"/>
+    <id>https://gaoyuexit.github.io&#39;/2018/02/25/start/</id>
     <published>2018-02-25T07:36:41.000Z</published>
     <updated>2018-02-25T07:36:41.000Z</updated>
     
@@ -57,10 +57,10 @@
     
     
     
-    <category term="Live" scheme="http://example.com/categories/Live/"/>
+    <category term="Live" scheme="https://gaoyuexit.github.io&#39;/categories/Live/"/>
     
     
-    <category term="Live" scheme="http://example.com/tags/Live/"/>
+    <category term="Live" scheme="https://gaoyuexit.github.io&#39;/tags/Live/"/>
     
   </entry>
   
