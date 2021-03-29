@@ -2,35 +2,35 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://gaoyuexit.github.io'/tags/index.html</loc>
+    <loc>http://gaoyu.cool'/tags/index.html</loc>
     
     <lastmod>2021-03-29</lastmod>
     
   </url>
   
   <url>
-    <loc>https://gaoyuexit.github.io'/categories/index.html</loc>
+    <loc>http://gaoyu.cool'/about/index.html</loc>
     
     <lastmod>2021-03-29</lastmod>
     
   </url>
   
   <url>
-    <loc>https://gaoyuexit.github.io'/about/index.html</loc>
+    <loc>http://gaoyu.cool'/categories/index.html</loc>
     
     <lastmod>2021-03-29</lastmod>
     
   </url>
   
   <url>
-    <loc>https://gaoyuexit.github.io'/2018/03/27/hexo-next-theme/</loc>
+    <loc>http://gaoyu.cool'/2018/03/27/hexo-next-theme/</loc>
     
     <lastmod>2018-03-27</lastmod>
     
   </url>
   
   <url>
-    <loc>https://gaoyuexit.github.io'/2018/02/25/start/</loc>
+    <loc>http://gaoyu.cool'/2018/02/25/start/</loc>
     
     <lastmod>2018-02-25</lastmod>
     
@@ -38,7 +38,7 @@
   
 
   <url>
-    <loc>https://gaoyuexit.github.io'/</loc>
+    <loc>http://gaoyu.cool'/</loc>
     <lastmod>2021-03-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -46,28 +46,28 @@
 
   
   <url>
-    <loc>https://gaoyuexit.github.io'/tags/Blog/</loc>
+    <loc>http://gaoyu.cool'/tags/Blog/</loc>
     <lastmod>2021-03-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://gaoyuexit.github.io'/tags/Hexo/</loc>
+    <loc>http://gaoyu.cool'/tags/Hexo/</loc>
     <lastmod>2021-03-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://gaoyuexit.github.io'/tags/Next/</loc>
+    <loc>http://gaoyu.cool'/tags/Next/</loc>
     <lastmod>2021-03-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://gaoyuexit.github.io'/tags/Live/</loc>
+    <loc>http://gaoyu.cool'/tags/Live/</loc>
     <lastmod>2021-03-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -76,14 +76,14 @@
 
   
   <url>
-    <loc>https://gaoyuexit.github.io'/categories/Blog/</loc>
+    <loc>http://gaoyu.cool'/categories/Blog/</loc>
     <lastmod>2021-03-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://gaoyuexit.github.io'/categories/Live/</loc>
+    <loc>http://gaoyu.cool'/categories/Live/</loc>
     <lastmod>2021-03-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
