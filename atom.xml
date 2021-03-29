@@ -3,11 +3,11 @@
   <title>Gao先生的小屋</title>
   
   <subtitle>碎碎念</subtitle>
-  <link href="http://gaoyu.cool/atom.xml" rel="self"/>
+  <link href="https://gaoyuexit.github.io/atom.xml" rel="self"/>
   
-  <link href="http://gaoyu.cool/"/>
+  <link href="https://gaoyuexit.github.io/"/>
   <updated>2018-03-27T15:36:15.000Z</updated>
-  <id>http://gaoyu.cool/</id>
+  <id>https://gaoyuexit.github.io/</id>
   
   <author>
     <name>Gao先生</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>博客折腾小记</title>
-    <link href="http://gaoyu.cool/2018/03/27/hexo-next-theme/"/>
-    <id>http://gaoyu.cool/2018/03/27/hexo-next-theme/</id>
+    <link href="https://gaoyuexit.github.io/2018/03/27/hexo-next-theme/"/>
+    <id>https://gaoyuexit.github.io/2018/03/27/hexo-next-theme/</id>
     <published>2018-03-27T15:36:15.000Z</published>
     <updated>2018-03-27T15:36:15.000Z</updated>
     
@@ -32,21 +32,21 @@
     
     
     
-    <category term="Blog" scheme="http://gaoyu.cool/categories/Blog/"/>
+    <category term="Blog" scheme="https://gaoyuexit.github.io/categories/Blog/"/>
     
     
-    <category term="Blog" scheme="http://gaoyu.cool/tags/Blog/"/>
+    <category term="Blog" scheme="https://gaoyuexit.github.io/tags/Blog/"/>
     
-    <category term="Hexo" scheme="http://gaoyu.cool/tags/Hexo/"/>
+    <category term="Hexo" scheme="https://gaoyuexit.github.io/tags/Hexo/"/>
     
-    <category term="Next" scheme="http://gaoyu.cool/tags/Next/"/>
+    <category term="Next" scheme="https://gaoyuexit.github.io/tags/Next/"/>
     
   </entry>
   
   <entry>
     <title>年后开工</title>
-    <link href="http://gaoyu.cool/2018/02/25/start/"/>
-    <id>http://gaoyu.cool/2018/02/25/start/</id>
+    <link href="https://gaoyuexit.github.io/2018/02/25/start/"/>
+    <id>https://gaoyuexit.github.io/2018/02/25/start/</id>
     <published>2018-02-25T07:36:41.000Z</published>
     <updated>2018-02-25T07:36:41.000Z</updated>
     
@@ -57,10 +57,10 @@
     
     
     
-    <category term="Live" scheme="http://gaoyu.cool/categories/Live/"/>
+    <category term="Live" scheme="https://gaoyuexit.github.io/categories/Live/"/>
     
     
-    <category term="Live" scheme="http://gaoyu.cool/tags/Live/"/>
+    <category term="Live" scheme="https://gaoyuexit.github.io/tags/Live/"/>
     
   </entry>
   
