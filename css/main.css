@@ -1241,7 +1241,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #e40895;
+  background: #ff6eb3;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2841,6 +2841,7 @@ ul.breadcrumb li + li:last-child {
   }
 }
 /* 参考: https://ryzn.me/p/beauty-my-blog.html */
+/* 博客样式美化 */
 body {
   background: #e5e6d0 url("/images/bg.jpg") repeat 0 0;
   font-size: 0.96em;
@@ -2898,3 +2899,18 @@ body {
 .btn {
   border: 0;
 }
+/* 博客样式美化 */
+/* Valine添加背景图片 */
+#veditor {
+  background-image: url("https://cdn.jsdelivr.net/gh/inkss/common@master/hexo/img/static/ship.gif");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+  background-color: rgba(255,255,255,0);
+  resize: vertical;
+}
+#veditor:focus {
+  background-position-y: 200px;
+  transition: all 0.2s ease-in-out 0s;
+}
+/* Valine添加背景图片 */
