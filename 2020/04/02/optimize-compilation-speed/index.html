@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gaoyuexit.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言稍微调研下优化编译时长, 除硬件设备和Xcode一些编译配置项外, 大体有以下👇几种方案:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译速度优化初探">
+<meta property="og:url" content="https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/index.html">
+<meta property="og:site_name" content="Gao先生的小屋">
+<meta property="og:description" content="前言稍微调研下优化编译时长, 除硬件设备和Xcode一些编译配置项外, 大体有以下👇几种方案:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/optimize-compilation-speed/rubymine_folder.png">
+<meta property="og:image" content="https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/optimize-compilation-speed/rubymine_gem_config.png">
+<meta property="og:image" content="https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/optimize-compilation-speed/rubymine_gem_bundler.png">
+<meta property="og:image" content="https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/optimize-compilation-speed/rubymine_breakpoint.png">
+<meta property="article:published_time" content="2020-04-02T08:41:56.000Z">
+<meta property="article:modified_time" content="2021-02-26T08:41:56.000Z">
+<meta property="article:author" content="Gao先生">
+<meta property="article:tag" content="编译">
+<meta property="article:tag" content="Cocoapods">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/optimize-compilation-speed/rubymine_folder.png">
+
+
+<link rel="canonical" href="https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script><head>
+   <!--看板娘-->
+  <script src="https://cdn.jsdelivr.net/gh/gaoyuexit/live2d-widget@latest/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <!--看板娘-->
+
+  <!--pjax：防止跳转页面音乐暂停-->
+  <script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script> 
+  <!--pjax：防止跳转页面音乐暂停-->
+<link rel="alternate" href="/atom.xml" title="Gao先生的小屋" type="application/atom+xml">
+</head>
+<title>编译速度优化初探 | Gao先生的小屋</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Gao先生的小屋</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">碎碎念</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E9%80%9F%E5%BA%A6%E4%BC%98%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">编译速度优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%BC%96%E8%AF%91%E4%BA%A7%E7%89%A9"><span class="nav-number">2.1.</span> <span class="nav-text">缓存编译产物</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CCache"><span class="nav-number">2.1.1.</span> <span class="nav-text">CCache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Buck-amp-Bazel"><span class="nav-number">2.1.2.</span> <span class="nav-text">Buck &amp; Bazel</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%96%E8%AF%91"><span class="nav-number">2.2.</span> <span class="nav-text">分布式编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%8C%96"><span class="nav-number">2.3.</span> <span class="nav-text">组件二进制化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B3%E6%BB%91%E7%BB%84%E4%BB%B6%E5%BA%93%E6%94%B9%E9%80%A0"><span class="nav-number">2.3.1.</span> <span class="nav-text">平滑组件库改造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Carthage"><span class="nav-number">2.3.2.</span> <span class="nav-text">Carthage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cocoapods-packager"><span class="nav-number">2.3.3.</span> <span class="nav-text">cocoapods-packager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cocoapods-binary"><span class="nav-number">2.3.4.</span> <span class="nav-text">cocoapods-binary</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cocoapods-bin-amp-cocoapods-imy-bin"><span class="nav-number">2.3.5.</span> <span class="nav-text">cocoapods-bin &amp; cocoapods-imy-bin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.3.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E5%96%84%E5%A4%B4%E6%96%87%E4%BB%B6%E7%9A%84%E6%90%9C%E7%B4%A2%E6%9C%BA%E5%88%B6"><span class="nav-number">2.4.</span> <span class="nav-text">完善头文件的搜索机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ruby%E5%B7%A5%E5%85%B7%E9%93%BE"><span class="nav-number">3.</span> <span class="nav-text">Ruby工具链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99cocoapods%E6%8F%92%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">编写cocoapods插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RubyMine%E8%B0%83%E8%AF%95cocoapods%E6%8F%92%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">RubyMine调试cocoapods插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E6%BA%90%E7%A0%81"><span class="nav-number">5.1.</span> <span class="nav-text">准备源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">5.2.</span> <span class="nav-text">安装依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RubyMine%E8%AE%BE%E7%BD%AE"><span class="nav-number">5.3.</span> <span class="nav-text">RubyMine设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E8%AF%95"><span class="nav-number">5.4.</span> <span class="nav-text">调试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Gao先生"
+      src="/images/kaka_avatar.gif">
+  <p class="site-author-name" itemprop="name">Gao先生</p>
+  <div class="site-description" itemprop="description">随便写点东西~</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dhb3l1ZXhpdA==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gaoyuexit"><i class="fab fa-github fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmdhb3l1ZXhpdEAxNjMuY29t" title="E-Mail → mailto:gaoyuexit@163.com"><i class="fa fa-envelope fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93ZWliby5jb20vdS82MDE5NjkzNzYz" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;6019693763"><i class="fab fa-weibo fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vdS9jNGE0NTA1YmVmNGY=" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;c4a4505bef4f"><i class="fa fa-book fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS94aWFvLXl1LTE1LTk0LTI5" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;xiao-yu-15-94-29"><i class="fab fa-zhihu fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMzQzNDgxMA==" title="B站 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;3434810"><i class="fa fa-television fa-fw"></i></span>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <span class="exturl" data-url="aHR0cHM6Ly9kcmF2ZW5lc3MubWU=" title="https:&#x2F;&#x2F;draveness.me">Draveness</span>
+        </li>
+        <li class="links-of-blogroll-item">
+          <span class="exturl" data-url="aHR0cDovL3l1bGluZ3RpYW54aWEuY29t" title="http:&#x2F;&#x2F;yulingtianxia.com">玉令天下</span>
+        </li>
+    </ul>
+  </div>
+<!--网易云插件-->
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=463352828&auto=0&height=66"></iframe>
+<!--网易云插件--> 
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kaka_avatar.gif">
+      <meta itemprop="name" content="Gao先生">
+      <meta itemprop="description" content="随便写点东西~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Gao先生的小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编译速度优化初探
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-02 16:41:56" itemprop="dateCreated datePublished" datetime="2020-04-02T16:41:56+08:00">2020-04-02</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-02-26 16:41:56" itemprop="dateModified" datetime="2021-02-26T16:41:56+08:00">2021-02-26</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>稍微调研下优化编译时长, 除硬件设备和Xcode一些编译配置项外, 大体有以下👇几种方案:</p>
+<span id="more"></span>
+
+
+<h2 id="编译速度优化"><a href="#编译速度优化" class="headerlink" title="编译速度优化"></a>编译速度优化</h2><h3 id="缓存编译产物"><a href="#缓存编译产物" class="headerlink" title="缓存编译产物"></a>缓存编译产物</h3><h4 id="CCache"><a href="#CCache" class="headerlink" title="CCache"></a>CCache</h4><blockquote>
+<p>把编译的中间产物缓存起来的工具, <span class="exturl" data-url="aHR0cDovL2xpbmsuemhpaHUuY29tLz90YXJnZXQ9aHR0cHM6Ly9wc3BkZmtpdC5jb20vYmxvZy8yMDE1L2NjYWNoZS1mb3ItZnVuLWFuZC1wcm9maXQv">Using ccache for Fun and Profit | Inside PSPDFKit<i class="fa fa-external-link-alt"></i></span>, 使用简单</p>
+</blockquote>
+<p>缺点: 不支持 Clang Modules、PCH, Swift</p>
+<h4 id="Buck-amp-Bazel"><a href="#Buck-amp-Bazel" class="headerlink" title="Buck &amp; Bazel"></a>Buck &amp; Bazel</h4><blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC9idWNrYnVpbGQuY29t">Buck<i class="fa fa-external-link-alt"></i></span> 是Facebook 开源, <span class="exturl" data-url="aHR0cDovL2xpbmsuemhpaHUuY29tLz90YXJnZXQ9aHR0cHM6Ly9iYXplbC5idWlsZC8=">Bazel<i class="fa fa-external-link-alt"></i></span>是Google 开源, 它们能智能的增量编译, 进而提高构建速度, 之前用在安卓, 已经适配了iOS.</p>
+</blockquote>
+<p>优点: </p>
+<ol>
+<li>缓存了编译结果，通过持续监视项目目录的文件变化，每次编译时只编译有改动的文件。 </li>
+<li>通过一台缓存文件服务器来保存大家的编译结果，只要团队里其中一人编译过的文件，其他人就不用再编译了，直接下载就行。</li>
+</ol>
+<p>缺点: </p>
+<ol>
+<li>因为由<span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC9idWNrYnVpbGQuY29t">Buck<i class="fa fa-external-link-alt"></i></span>接管了项目编译的过程, 所以项目进行大幅度调整</li>
+</ol>
+<blockquote>
+<p>这个方案不错, 可以进行参考, 听说我们的安卓团队小伙伴就是通过脚本来进行监听项目文件变化, 来进行增量编译, 后续可以去取经~</p>
+</blockquote>
+<h3 id="分布式编译"><a href="#分布式编译" class="headerlink" title="分布式编译"></a>分布式编译</h3><blockquote>
+<p>把编译任务分派到内网的多台服务器上，服务器编译完成后把编译产物传回来。比较出名的是<code>distcc</code>。</p>
+</blockquote>
+<p>这种方案没有深入调研。</p>
+<h3 id="组件二进制化"><a href="#组件二进制化" class="headerlink" title="组件二进制化"></a>组件二进制化</h3><h4 id="平滑组件库改造"><a href="#平滑组件库改造" class="headerlink" title="平滑组件库改造"></a>平滑组件库改造</h4><blockquote>
+<p>通过引入变量的方式, 在podspec文件中进行判断是使用源码还是二进制的source</p>
+</blockquote>
+<p>缺点: 需要一个一个库的改造, 且podspec的库版本是使用json格式来进行缓存的, 引入变量不知是否会有问题</p>
+<h4 id="Carthage"><a href="#Carthage" class="headerlink" title="Carthage"></a>Carthage</h4><blockquote>
+<p>Carthage可以将一部分不常变的库打包成framework，可以比较方便地调试源码, 但是对于项目的改动较大</p>
+</blockquote>
+<h4 id="cocoapods-packager"><a href="#cocoapods-packager" class="headerlink" title="cocoapods-packager"></a>cocoapods-packager</h4><blockquote>
+<p>仅需要通过podspec文件, 在lint通过后就可以将pod打包成Static Library。但是有很长时间没有更新了。</p>
+</blockquote>
+<h4 id="cocoapods-binary"><a href="#cocoapods-binary" class="headerlink" title="cocoapods-binary"></a>cocoapods-binary</h4><blockquote>
+<p> 原理是通过 CocoaPods 提供的 pre_install hook 在 pod install 的 prepare 阶段拦截到当前的 pod install context，进而 fork 出一份独立的 installer 以完成将预编译源码 clone 至 Pod/_Prebuild 目录下。</p>
+</blockquote>
+<p>使用很简单, 试用了一下: </p>
+<p>会拖慢pod install速度, 源码切换调试后, 缓存会被清理, 需要重新编译。这个对于项目第一次编译来说没有任何作用,  而打包等场景更多的是优化第一次的编译速度</p>
+<h4 id="cocoapods-bin-amp-cocoapods-imy-bin"><a href="#cocoapods-bin-amp-cocoapods-imy-bin" class="headerlink" title="cocoapods-bin &amp; cocoapods-imy-bin"></a>cocoapods-bin &amp; cocoapods-imy-bin</h4><blockquote>
+<p> <code>cocoapods-imy-bin</code>算是<code>cocoapods-bin</code>的强化版, 增添了很多功能, 总体适用下来侵入性低, 功能比较全。</p>
+</blockquote>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><blockquote>
+<p>如果选用二进制化方案, 可以预见性的一些问题有一下几点: </p>
+</blockquote>
+<ol>
+<li><p>单私有源, 没有服务端缓存的不可取, 对于第一次编译没有效果</p>
+</li>
+<li><p>我们有多种方式生成静态库,  在使用服务端缓存时, 一定不要使用Git来管理二进制文件, 会拖慢Git拉取的速度, 毕竟Git的缓存机制来说是不能管理大文件的, 推荐静态服务器。</p>
+</li>
+</ol>
+<h3 id="完善头文件的搜索机制"><a href="#完善头文件的搜索机制" class="headerlink" title="完善头文件的搜索机制"></a>完善头文件的搜索机制</h3><blockquote>
+<p>1: cocoapods-hmap-prebuilt 是美团一款 cocoapods 插件，以 <span class="exturl" data-url="aHR0cHM6Ly9jbGFuZy5sbHZtLm9yZy9kb3h5Z2VuL2NsYXNzY2xhbmdfMV8xSGVhZGVyTWFwLmh0bWw=">Header Map 技术<i class="fa fa-external-link-alt"></i></span> 为基础，提升代码的编译速度，完善头文件的搜索机制。</p>
+<p>2: Clang Module</p>
+</blockquote>
+<p>未尝试, 美团文章中提供的cocoapods-hmap-prebuilt的source无法访问, 下载不了gem</p>
+<p>不过原理已经告诉了我们, 也是一种努力的方向</p>
+<h2 id="Ruby工具链"><a href="#Ruby工具链" class="headerlink" title="Ruby工具链"></a>Ruby工具链</h2><p>目前流行的 Ruby 环境管理工具有 RVM 和 rbenv。我们使用那一种都可以, RVM较重, rbenv轻量级。</p>
+<p>但是这两个工具是不兼容的, 我们只能选择其一, 即在搜索ruby的sdk时, 只有一个是可见的。</p>
+<p>两个的安装和使用这里不在赘述, 下面为官方文档: </p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ydWJ5LWNoaW5hLm9yZy93aWtpL3J2bS1ndWlkZQ==">RVM实用指南<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ydWJ5LWNoaW5hLm9yZy93aWtpL3J2bS1ndWlkZQ==">rbenv实用指南<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="编写cocoapods插件"><a href="#编写cocoapods插件" class="headerlink" title="编写cocoapods插件"></a>编写cocoapods插件</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0NvY29hUG9kcy9jb2NvYXBvZHMtcGx1Z2lucw==">cocoapods-plugins文档<i class="fa fa-external-link-alt"></i></span></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 安装</span><br><span class="line">gem install cocoapods<span class="literal">-plugins</span></span><br><span class="line">// 创建</span><br><span class="line">pod plugins create NAME [<span class="type">TEMPLATE_URL</span>]</span><br><span class="line">// eg:</span><br><span class="line">pod plugins create author</span><br></pre></td></tr></table></figure>
+
+<p>如何使用: </p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 查看安装过的插件</span><br><span class="line">pod plugins installed</span><br><span class="line">// 查看已知的插件</span><br><span class="line">pod plugins list</span><br><span class="line">// 查找插件</span><br><span class="line">pod plugins search QUERY</span><br><span class="line">// 发布自己的插件</span><br><span class="line">pod plugins publish</span><br></pre></td></tr></table></figure>
+
+<p>目录结构:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── Gemfile</span><br><span class="line">├── LICENSE.txt</span><br><span class="line">├── README.md</span><br><span class="line">├── Rakefile</span><br><span class="line">├── cocoapods<span class="literal">-author</span>.gemspec</span><br><span class="line">├── lib</span><br><span class="line">│   ├── cocoapods<span class="literal">-author</span></span><br><span class="line">│   │   ├── command</span><br><span class="line">│   │   │   └── author.rb</span><br><span class="line">│   │   ├── command.rb</span><br><span class="line">│   │   └── gem_version.rb</span><br><span class="line">│   ├── cocoapods<span class="literal">-author</span>.rb</span><br><span class="line">│   └── cocoapods_plugin.rb</span><br><span class="line">└── spec</span><br><span class="line">    ├── command</span><br><span class="line">    │   └── author_spec.rb</span><br><span class="line">    └── spec_helper.rb</span><br></pre></td></tr></table></figure>
+
+<p>解析author.rb的内容</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Pod</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Command</span></span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Author</span> &lt; Command</span></span><br><span class="line">      <span class="comment"># pod plugins list 时，展示的概要信息</span></span><br><span class="line">      <span class="keyword">self</span>.summary = <span class="string">&#x27;Short description of cocoapods-author.&#x27;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># --help / 命令错误时展示的描述信息</span></span><br><span class="line">      <span class="keyword">self</span>.description = &lt;&lt;-DESC</span><br><span class="line">        Longer description of cocoapods-author.</span><br><span class="line">      DESC</span><br><span class="line"></span><br><span class="line">      <span class="comment"># --help / 命令错误时展示的参数信息</span></span><br><span class="line">      <span class="keyword">self</span>.arguments = <span class="string">&#x27;NAME&#x27;</span></span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(argv)</span></span></span><br><span class="line">        <span class="variable">@name</span> = argv.shift_argument</span><br><span class="line">        <span class="keyword">super</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># 校验方法（查看文件是否存在等）</span></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">validate!</span></span></span><br><span class="line">        <span class="keyword">super</span></span><br><span class="line">        help! <span class="string">&#x27;A Pod name is required.&#x27;</span> <span class="keyword">unless</span> @name</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># 运行命令</span></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">run</span></span></span><br><span class="line">        UI.puts <span class="string">&quot;Add your implementation for the cocoapods-author plugin in <span class="subst">#&#123;<span class="keyword">__FILE__</span>&#125;</span>&quot;</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="RubyMine调试cocoapods插件"><a href="#RubyMine调试cocoapods插件" class="headerlink" title="RubyMine调试cocoapods插件"></a>RubyMine调试cocoapods插件</h2><p><strong>RubyMine</strong>是一个Ruby的IDE开发工具, 当然我们也可以使用<strong>VSCode</strong>来进行调试和开发</p>
+<p>RubyMine是一个可以免费使用30天的收费软件,  这里我使用的是破解版本</p>
+<h3 id="准备源码"><a href="#准备源码" class="headerlink" title="准备源码"></a>准备源码</h3><p>我们可以调试任意的cocoapods插件, 我们以<code>cocoapods-imy-bin</code>为例, ``cocoapods-imy-bin<code>是一款可以使源码库转换为二进制的插件, 是</code>cocoapods-bin`的强化版本</p>
+<p>创建目录<code>imy-bin</code>:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">imy<span class="literal">-bin</span></span><br><span class="line">├── Gemfile <span class="comment">#bundle的依赖文件</span></span><br><span class="line">├── cocoapods<span class="literal">-imy</span><span class="literal">-bin</span> <span class="comment">#插件的源码</span></span><br><span class="line">├── PodDemo <span class="comment">#这个就是一个随便用xcode建立的iOS的使用podfile的demo工程</span></span><br></pre></td></tr></table></figure>
+
+<p>其中<code>Gemfile</code>中的内容为: </p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#国内的源比较快</span></span><br><span class="line"><span class="comment">#source &#x27;https://rubygems.org&#x27;</span></span><br><span class="line">source <span class="string">&#x27;https://gems.ruby-china.com&#x27;</span></span><br><span class="line"></span><br><span class="line">gem <span class="string">&#x27;cocoapods-imy-bin&#x27;</span> , <span class="symbol">:path</span> =&gt; <span class="string">&quot;./cocoapods-imy-bin&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#下面的代码不用写,因为RubyMine在调试时,会自动安装这些gem, 如果是vscode调试的话, 需要安装gem</span></span><br><span class="line">group <span class="symbol">:debug</span> <span class="keyword">do</span></span><br><span class="line">    gem <span class="string">&#x27;ruby-debug-ide&#x27;</span></span><br><span class="line">    gem <span class="string">&#x27;debase&#x27;</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><p>在当前目录下建立<code>./bundle/config</code>文件, <code>config</code>内容如下: </p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BUNDLE_PATH: <span class="string">&quot;vendor/bundle&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行 bundle install, 将会把Gemfile文件中所申明的依赖都安装到vendor/bundle目录下</p>
+<p>因为我们是调试某个gem库, 为了不影响我们已经安装的, 安装依赖的时候, 最好是安装到当前文件夹下的执行目录中去, bundle会检查, 如果配置了<code>config</code>文件的话, 是可以在配置文件中声明安装的目录的。</p>
+<p>而且不指定安装到当前目录, 会写入到ruby环境所在文件, 我们系统有可能没有写入权限, 进而报错。</p>
+<p>创建文件完成后, 我们在在前目录执行<code>bundle install</code>, 将依赖安装进<code>vendor/bundle</code>中</p>
+<p>此时的目录结构为: </p>
+<p><img src="./optimize-compilation-speed/rubymine_folder.png" alt="rubymine_folder"></p>
+<h3 id="RubyMine设置"><a href="#RubyMine设置" class="headerlink" title="RubyMine设置"></a>RubyMine设置</h3><p>RubyMine打开<code>imy-bin</code>文件夹, 设置<code>Edit Configurations</code></p>
+<p><img src="./optimize-compilation-speed/rubymine_gem_config.png" alt="rubymine_gem_config"></p>
+<p><img src="./optimize-compilation-speed/rubymine_gem_bundler.png" alt="rubymine_gem_bundler"></p>
+<h3 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h3><p>我们找到<code>cocoapods-imy-bin</code>插件的中命令<code>pod bin init</code>的函数入口, 打断点。</p>
+<p>点击小爬虫, 进行调试: </p>
+<p><img src="./optimize-compilation-speed/rubymine_breakpoint.png" alt="rubymine_breakpoint"></p>
+<p>至此, 我们就可以通过调试, 然后看看<code>cocoapods-imy-bin</code>作者的实现思路以及每一个命令的都做了哪些事情~</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC8xODViMWViNTY4N2I=">rubymine调试cocoapods插件<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly90cmlwbGVjYy5naXRodWIuaW8vMjAxNy8xMS8wOC8yMDE3LTExLTA4LWNodWFuZy1qaWFuLWNvY29hcG9kc2NoYS1qaWFuLw==">编写自己的 CocoaPods 插件<i class="fa fa-external-link-alt"></i></span></p>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/reward_wechatpay.png" alt="Gao先生 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/reward_alipay.png" alt="Gao先生 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>原作者： </strong>Gao先生
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/" title="编译速度优化初探">https://gaoyuexit.github.io/2020/04/02/optimize-compilation-speed/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/channel_wechat.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/channel_qq.jpg">
+          <span class="icon">
+            <i class="fab fa-qq"></i>
+          </span>
+
+          <span class="label">QQ</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E8%AF%91/" rel="tag"># 编译</a>
+              <a href="/tags/Cocoapods/" rel="tag"># Cocoapods</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/03/27/hexo-next-theme/" rel="prev" title="博客折腾小记">
+                  <i class="fa fa-chevron-left"></i> 博客折腾小记
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gao先生</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">10k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">9 分钟</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+    <div class="pjax">
+
+
+<script>
+NexT.utils.loadComments('.utterances-container', () => {
+  const script = document.createElement('script');
+  script.src = 'https://utteranc.es/client.js';
+  script.setAttribute('repo', "gaoyuexit/gaoyu-blog-utterances");
+  script.setAttribute('issue-term', "title");
+  script.setAttribute('theme', "github-light");
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  document.querySelector('.utterances-container').appendChild(script);
+});
+</script>
+
+    </div>
+</body>
+</html>
