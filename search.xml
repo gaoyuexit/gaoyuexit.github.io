@@ -202,13 +202,17 @@
 <p>而且不指定安装到当前目录, 会写入到ruby环境所在文件, 我们系统有可能没有写入权限, 进而报错。</p>
 <p>创建文件完成后, 我们在在前目录执行<code>bundle install</code>, 将依赖安装进<code>vendor/bundle</code>中</p>
 <p>此时的目录结构为: </p>
-<p><img src="./optimize-compilation-speed/rubymine_folder.png" alt="rubymine_folder"></p>
+<img src="/2020/04/02/optimize-compilation-speed/rubymine_folder.png" class="" title="目录结构">
+
 <h3 id="RubyMine设置"><a href="#RubyMine设置" class="headerlink" title="RubyMine设置"></a>RubyMine设置</h3><p>RubyMine打开<code>imy-bin</code>文件夹, 设置<code>Edit Configurations</code></p>
-<p><img src="./optimize-compilation-speed/rubymine_gem_config.png" alt="rubymine_gem_config"></p>
-<p><img src="./optimize-compilation-speed/rubymine_gem_bundler.png" alt="rubymine_gem_bundler"></p>
+<img src="/2020/04/02/optimize-compilation-speed/rubymine_gem_config.png" class="" title="配置config">
+<img src="/2020/04/02/optimize-compilation-speed/rubymine_gem_bundler.png" class="" title="配置bundler">
+
 <h3 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h3><p>我们找到<code>cocoapods-imy-bin</code>插件的中命令<code>pod bin init</code>的函数入口, 打断点。</p>
 <p>点击小爬虫, 进行调试: </p>
-<p><img src="./optimize-compilation-speed/rubymine_breakpoint.png" alt="rubymine_breakpoint"></p>
+<img src="/2020/04/02/optimize-compilation-speed/rubymine_breakpoint.png" class="" title="断点">
+
+
 <p>至此, 我们就可以通过调试, 然后看看<code>cocoapods-imy-bin</code>作者的实现思路以及每一个命令的都做了哪些事情~</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC8xODViMWViNTY4N2I=">rubymine调试cocoapods插件<i class="fa fa-external-link-alt"></i></span></p>
 <p><span class="exturl" data-url="aHR0cHM6Ly90cmlwbGVjYy5naXRodWIuaW8vMjAxNy8xMS8wOC8yMDE3LTExLTA4LWNodWFuZy1qaWFuLWNvY29hcG9kc2NoYS1qaWFuLw==">编写自己的 CocoaPods 插件<i class="fa fa-external-link-alt"></i></span></p>
