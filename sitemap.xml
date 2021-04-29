@@ -30,6 +30,13 @@
   </url>
   
   <url>
+    <loc>https://gaoyuexit.github.io/2020/04/29/flutter-bloc/</loc>
+    
+    <lastmod>2020-04-29</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://gaoyuexit.github.io/2018/03/27/hexo-next-theme/</loc>
     
     <lastmod>2018-03-27</lastmod>
@@ -46,50 +53,64 @@
 
   <url>
     <loc>https://gaoyuexit.github.io/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
+    <loc>https://gaoyuexit.github.io/tags/Flutter/</loc>
+    <lastmod>2021-04-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://gaoyuexit.github.io/tags/Bloc/</loc>
+    <lastmod>2021-04-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://gaoyuexit.github.io/tags/Blog/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://gaoyuexit.github.io/tags/Hexo/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://gaoyuexit.github.io/tags/Next/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://gaoyuexit.github.io/tags/%E7%BC%96%E8%AF%91/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://gaoyuexit.github.io/tags/Cocoapods/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://gaoyuexit.github.io/tags/Live/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -97,22 +118,29 @@
 
   
   <url>
+    <loc>https://gaoyuexit.github.io/categories/Flutter/</loc>
+    <lastmod>2021-04-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://gaoyuexit.github.io/categories/Blog/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://gaoyuexit.github.io/categories/iOS/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://gaoyuexit.github.io/categories/Live/</loc>
-    <lastmod>2021-04-25</lastmod>
+    <lastmod>2021-04-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gaoyuexit.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
+  </script>
+<meta name="description" content="前言 Flutter和SwiftUI是声明式和响应式编程在移动端的典范, 使用它们开发复杂业务, 状态管理是绕不过去的话题.   BLoC【Business Logic Component】设计模式是paolo soares 和 cong hui 在2018年Google dartconf上提出的，具体设计思想和于传统开发方式的比较, 可以参考YouTube演示视频">
+<meta property="og:type" content="article">
+<meta property="og:title" content="状态管理之Bloc初体验">
+<meta property="og:url" content="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/index.html">
+<meta property="og:site_name" content="Gao先生的小屋">
+<meta property="og:description" content="前言 Flutter和SwiftUI是声明式和响应式编程在移动端的典范, 使用它们开发复杂业务, 状态管理是绕不过去的话题.   BLoC【Business Logic Component】设计模式是paolo soares 和 cong hui 在2018年Google dartconf上提出的，具体设计思想和于传统开发方式的比较, 可以参考YouTube演示视频">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/juliver-d/bloc_example/blob/master/source/bloc_page.gif">
+<meta property="og:image" content="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/bloc_page.gif">
+<meta property="og:image" content="https://github.com/juliver-d/bloc_example/blob/master/source/bloc_architecture_full.png">
+<meta property="og:image" content="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/bloc_architecture_full.png">
+<meta property="article:published_time" content="2020-04-29T08:58:41.000Z">
+<meta property="article:modified_time" content="2020-04-29T08:58:41.000Z">
+<meta property="article:author" content="Gao先生">
+<meta property="article:tag" content="Flutter">
+<meta property="article:tag" content="Bloc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/juliver-d/bloc_example/blob/master/source/bloc_page.gif">
+
+
+<link rel="canonical" href="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/">
+
+
+<script data-pjax class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script><head>
+   <!--看板娘-->
+  <script src="https://cdn.jsdelivr.net/gh/gaoyuexit/live2d-widget@latest/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+  <!--看板娘-->
+
+  <!--pjax：防止跳转页面音乐暂停-->
+  <script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script> 
+  <!--pjax：防止跳转页面音乐暂停-->
+<link rel="alternate" href="/atom.xml" title="Gao先生的小屋" type="application/atom+xml">
+</head>
+<title>状态管理之Bloc初体验 | Gao先生的小屋</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Gao先生的小屋</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">碎碎念</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BLoC"><span class="nav-number">2.</span> <span class="nav-text">BLoC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">3.1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE"><span class="nav-number">3.2.</span> <span class="nav-text">数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%95%E7%A4%BA"><span class="nav-number">3.3.</span> <span class="nav-text">展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9"><span class="nav-number">3.4.</span> <span class="nav-text">更改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4"><span class="nav-number">3.5.</span> <span class="nav-text">提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C"><span class="nav-number">3.6.</span> <span class="nav-text">校验</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Gao先生"
+      src="/images/kaka_avatar.gif">
+  <p class="site-author-name" itemprop="name">Gao先生</p>
+  <div class="site-description" itemprop="description">随便写点东西~</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dhb3l1ZXhpdA==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gaoyuexit"><i class="fab fa-github fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmdhb3l1ZXhpdEAxNjMuY29t" title="E-Mail → mailto:gaoyuexit@163.com"><i class="fa fa-envelope fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93ZWliby5jb20vdS82MDE5NjkzNzYz" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;6019693763"><i class="fab fa-weibo fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vdS9jNGE0NTA1YmVmNGY=" title="简书 → https:&#x2F;&#x2F;www.jianshu.com&#x2F;u&#x2F;c4a4505bef4f"><i class="fa fa-book fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS94aWFvLXl1LTE1LTk0LTI5" title="知乎 → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;xiao-yu-15-94-29"><i class="fab fa-zhihu fa-fw"></i></span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9zcGFjZS5iaWxpYmlsaS5jb20vMzQzNDgxMA==" title="B站 → https:&#x2F;&#x2F;space.bilibili.com&#x2F;3434810"><i class="fa fa-television fa-fw"></i></span>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <span class="exturl cc-opacity" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <span class="exturl" data-url="aHR0cHM6Ly9kcmF2ZW5lc3MubWU=" title="https:&#x2F;&#x2F;draveness.me">Draveness</span>
+        </li>
+        <li class="links-of-blogroll-item">
+          <span class="exturl" data-url="aHR0cDovL3l1bGluZ3RpYW54aWEuY29t" title="http:&#x2F;&#x2F;yulingtianxia.com">玉令天下</span>
+        </li>
+    </ul>
+  </div>
+<!--网易云插件-->
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=463352828&auto=0&height=66"></iframe>
+<!--网易云插件--> 
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kaka_avatar.gif">
+      <meta itemprop="name" content="Gao先生">
+      <meta itemprop="description" content="随便写点东西~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Gao先生的小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          状态管理之Bloc初体验
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-29 16:58:41" itemprop="dateCreated datePublished" datetime="2020-04-29T16:58:41+08:00">2020-04-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a>
+        </span>
+    </span>
+
+  
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <meta name="referrer" content="no-referrer" />
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>Flutter和SwiftUI是声明式和响应式编程在移动端的典范, 使用它们开发复杂业务, 状态管理是绕不过去的话题. </p>
+</blockquote>
+<p>BLoC【Business Logic Component】设计模式是<code>paolo soares</code> 和 <code>cong hui</code> 在2018年<code>Google dartconf</code>上提出的，具体设计思想和于传统开发方式的比较, 可以参考<span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1QTEhsbjd3SGdQRQ==">YouTube演示视频<i class="fa fa-external-link-alt"></i></span></p>
+<span id="more"></span>
+<p>BloC设计模式是Flutter解决状态管理的一种方案, 今天笔者将使用<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZlbGFuZ2VsL2Jsb2M=">bloc<i class="fa fa-external-link-alt"></i></span>(实现该设计模式且比较流行的库)来构建一个工程中完整且常见的页面,  作为Flutter初学者, 希望以此和大家交流, 共同进步,   你可以在<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2p1bGl2ZXItZC9ibG9jX2V4YW1wbGU=">这里<i class="fa fa-external-link-alt"></i></span>找到该项目的完整代码~</p>
+<img src='https://github.com/juliver-d/bloc_example/blob/master/source/bloc_page.gif' alt='page' width='25%'>
+<img src="/2020/04/29/flutter-bloc/bloc_page.gif" class="" title="效果 [10] [15]">
+
+<h1 id="BLoC"><a href="#BLoC" class="headerlink" title="BLoC"></a>BLoC</h1><p>为什么选用BLoC ? </p>
+<blockquote>
+<p>BLoC将视图层与业务逻辑分离变得容易，从而使代码<strong>简单</strong>，<strong>可测</strong> 并且<strong>可重用</strong>, 更重要的是它以一种数据驱动的规范化流程来编写, 各个层级各司其职, 清晰分明</p>
+</blockquote>
+<p>如果你是Web开发者, 你肯定熟悉React+Redux、如果你是iOS开发者, 你可能会使用过RxSwift+ReactorKit,  如果你熟悉单项数据流开发模式, 那么你对BLoC就非常容易上手, BLoC就是用reactive programming方式构建应用, 一个由流构成的完全异步的世界。从而达到界面与业务分离的逻辑。</p>
+<p><img src="https://github.com/juliver-d/bloc_example/blob/master/source/bloc_architecture_full.png" alt="bloc_architecture_full"></p>
+<img src="/2020/04/29/flutter-bloc/bloc_architecture_full.png" class="" title="架构">
+
+<p>通过bloc<span class="exturl" data-url="aHR0cHM6Ly9ibG9jbGlicmFyeS5kZXYvIy9hcmNoaXRlY3R1cmU/aWQ9cHJlc2VudGF0aW9uLWxheWVy">官网<i class="fa fa-external-link-alt"></i></span>介绍的流程图来看, 它将应用分为了三层: 展示层, 逻辑层, 数据层. 而通过流程来看, bloc逻辑层作为三层的中枢, 处理三个层级之间的交流.</p>
+<p>并且我们可以根据官方的命名规范来组织各个层级结构: </p>
+<ul>
+<li><p>数据层(Data Layer):  职责是从一个或多个源中检索/处理数据。</p>
+<ul>
+<li>使用<code>DataProvider</code>来提供原始数据(eg: CRUD等)</li>
+<li>使用<code>Repository</code>来包装一个或多个<code>DataProvider</code>, 然后与bloc进行通讯</li>
+</ul>
+</li>
+<li><p>逻辑层(Business Logic Layer):  职责是接收表示层的事件输入, 请求检索数据, 进而以数据建立表示层的新状态</p>
+<ul>
+<li>多个bloc之间也可以进行通讯: 每个bloc都有一个状态流, , 其他bloc可以订阅该流, 以便对自己bloc内部做出新状态的改变</li>
+</ul>
+</li>
+<li><p>展示层(Presentation Layer): 职责是向bloc发送用户事件, 根据一个或多个bloc的状态来进行渲染改变</p>
+</li>
+</ul>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>在大家了解过<span class="exturl" data-url="aHR0cHM6Ly9ibG9jbGlicmFyeS5kZXYvIy9mbHV0dGVyYmxvY2NvcmVjb25jZXB0cz9pZD1ibG9jLXdpZGdldHM=">bloc widgets<i class="fa fa-external-link-alt"></i></span>的api之后, 那就跟着我一起进行页面的开发吧😸</p>
+<p>这里我已经准备好了页面所需的数据来源了:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;code&quot;</span>: <span class="number">0</span>,</span><br><span class="line">	<span class="attr">&quot;errMsg&quot;</span>: <span class="string">&quot;操作成功&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;data&quot;</span>: &#123;</span><br><span class="line">		<span class="attr">&quot;time&quot;</span>: &#123;</span><br><span class="line">			<span class="attr">&quot;start_time&quot;</span>: <span class="string">&quot;21:00&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;end_time&quot;</span>: <span class="string">&quot;22:00&quot;</span></span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="attr">&quot;address&quot;</span>: <span class="string">&quot;北京&quot;</span>,</span><br><span class="line">		<span class="attr">&quot;types&quot;</span>: [&#123;</span><br><span class="line">			<span class="attr">&quot;name&quot;</span>: <span class="string">&quot;普通公寓：住宅用地，公寓产权，70年，户型面积小&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;value&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;selected&quot;</span>: <span class="number">2</span></span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			<span class="attr">&quot;name&quot;</span>: <span class="string">&quot;商务公寓：商业用地，商务公寓产权，40年&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;value&quot;</span>: <span class="string">&quot;2&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;selected&quot;</span>: <span class="number">1</span></span><br><span class="line">		&#125;, &#123;</span><br><span class="line">			<span class="attr">&quot;name&quot;</span>: <span class="string">&quot;酒店式公寓：商业用地，商务公寓或公寓产权，40年，面积较小&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;value&quot;</span>: <span class="string">&quot;3&quot;</span>,</span><br><span class="line">			<span class="attr">&quot;selected&quot;</span>: <span class="number">2</span></span><br><span class="line">		&#125;],</span><br><span class="line">		<span class="attr">&quot;count&quot;</span>: <span class="string">&quot;3&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>简单梳理下页面的需求:</p>
+<ul>
+<li>根据json数据, 展示页面的上的内容</li>
+<li>点击提交将修改后的内容提交至服务器, 提交参数为:<code>start_time</code>, <code>end_time</code>,<code> address</code>, <code>count</code>和选中的<code>type</code>对应的value值</li>
+<li>并且在点击页面返回的时候, 需要校验当然页面是否有修改过的数据, 并对用户进行弹窗展示</li>
+</ul>
+<h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>定义展示模型: </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormModel</span> </span>&#123;</span><br><span class="line">  <span class="comment">///<span class="markdown">时间</span></span></span><br><span class="line">  Time time;</span><br><span class="line">  <span class="comment">///<span class="markdown">地点</span></span></span><br><span class="line">  <span class="built_in">String</span> address;</span><br><span class="line">  <span class="comment">///<span class="markdown">类型</span></span></span><br><span class="line">  <span class="built_in">List</span>&lt;SelectValueItem&gt; types;</span><br><span class="line">  <span class="comment">///<span class="markdown">次数</span></span></span><br><span class="line">  <span class="built_in">String</span> count;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">///<span class="markdown">help -</span></span></span><br><span class="line">  <span class="keyword">get</span> timeString =&gt; <span class="string">&#x27;<span class="subst">$&#123;time.start&#125;</span>-<span class="subst">$&#123;time.end&#125;</span>&#x27;</span>;</span><br><span class="line">  <span class="keyword">get</span> counString =&gt; <span class="string">&#x27;<span class="subst">$&#123;count&#125;</span>次&#x27;</span>;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">///<span class="markdown">转化为提交模型</span></span></span><br><span class="line">  FormSubmit toSubmit() &#123;</span><br><span class="line">    <span class="keyword">return</span> FormSubmit(</span><br><span class="line">      start: time.start,</span><br><span class="line">      end: time.end,</span><br><span class="line">      address: address,</span><br><span class="line">      type: types.firstWhere((e) =&gt; e.selected, orElse: <span class="keyword">null</span>)?.value ?? <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">      count: count,</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义提交模型</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///<span class="markdown">提交模型</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormSubmit</span> <span class="keyword">extends</span> <span class="title">Equatable</span> </span>&#123;</span><br><span class="line">  <span class="comment">///<span class="markdown">起始时间</span></span></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> start;</span><br><span class="line">  <span class="comment">///<span class="markdown">结束时间</span></span></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> end;</span><br><span class="line">  <span class="comment">///<span class="markdown">地址</span></span></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> address;</span><br><span class="line">  <span class="comment">///<span class="markdown">类型</span></span></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> type;</span><br><span class="line">  <span class="comment">///<span class="markdown">次数</span></span></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>模拟网络请求(FormRepository)</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _delay = <span class="built_in">Duration</span>(milliseconds: <span class="number">300</span>);</span><br><span class="line">Future&lt;<span class="keyword">void</span>&gt; wait() =&gt; Future.delayed(_delay);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormRepository</span> </span>&#123;</span><br><span class="line">  <span class="comment">/// <span class="markdown">抓取表单数据</span></span></span><br><span class="line">  Future&lt;FormModel&gt; fetchFormData() <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">await</span> wait(); <span class="comment">//模拟延迟</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">String</span> jsonString = <span class="keyword">await</span> rootBundle.loadString(<span class="string">&quot;assets/json/form_data.json&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> jsonResult = json.decode(jsonString);</span><br><span class="line">    FormModel model = FormModel.fromJson(jsonResult[<span class="string">&#x27;data&#x27;</span>]);</span><br><span class="line">    <span class="keyword">return</span> model;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/// <span class="markdown">表单保存</span></span></span><br><span class="line">  Future&lt;<span class="built_in">bool</span>&gt; saveForm(FormSubmit model) <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">await</span> wait();</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="展示"><a href="#展示" class="headerlink" title="展示"></a>展示</h2><p>展示数据的逻辑, 我们定义一个form_bloc处理, 为了编写bloc模板, <span class="exturl" data-url="aHR0cHM6Ly9wbHVnaW5zLmpldGJyYWlucy5jb20vcGx1Z2luLzEyMTI5LWJsb2MtY29kZS1nZW5lcmF0b3I=">Bloc Code Generator<i class="fa fa-external-link-alt"></i></span>插件可以方便的生成构建Bloc的模版代码, 有兴趣的同学可以尝试使用</p>
+<p>定义Event:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@immutable</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">FormEvent</span> </span>&#123;&#125;</span><br><span class="line"><span class="comment">//请求数据事件</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormDataRequestEvent</span> <span class="keyword">extends</span> <span class="title">FormEvent</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义State:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@immutable</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">FormDataState</span> </span>&#123;&#125;</span><br><span class="line"><span class="comment">//初始状态</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormInitState</span> <span class="keyword">extends</span> <span class="title">FormDataState</span> </span>&#123;&#125;</span><br><span class="line"><span class="comment">//加载成功状态</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormLoadedState</span> <span class="keyword">extends</span> <span class="title">FormDataState</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> FormModel data;</span><br><span class="line">  FormLoadedState(&#123;<span class="keyword">this</span>.data&#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//数据加载失败状态</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormFailureState</span> <span class="keyword">extends</span> <span class="title">FormDataState</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> error;</span><br><span class="line">  FormFailureState(&#123;<span class="meta">@required</span> <span class="keyword">this</span>.error&#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//数据请求中状态</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormInProgressState</span> <span class="keyword">extends</span> <span class="title">FormDataState</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义bloc: </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormBloc</span> <span class="keyword">extends</span> <span class="title">Bloc</span>&lt;<span class="title">FormEvent</span>, <span class="title">FormDataState</span>&gt; </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  FormDataState <span class="keyword">get</span> initialState =&gt; FormInitState();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">final</span> FormRepository repo;</span><br><span class="line">  FormBloc(&#123;<span class="meta">@required</span> <span class="keyword">this</span>.repo&#125;) : <span class="keyword">assert</span>(repo != <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Stream&lt;FormDataState&gt; mapEventToState(</span><br><span class="line">      FormEvent event,</span><br><span class="line">      ) <span class="keyword">async</span>* &#123;</span><br><span class="line">    <span class="comment">//请求</span></span><br><span class="line">    <span class="keyword">if</span> (event <span class="keyword">is</span> FormDataRequestEvent) &#123;</span><br><span class="line">      <span class="keyword">yield</span> FormInProgressState(); <span class="comment">//请求中状态..</span></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> model = <span class="keyword">await</span> repo.fetchFormData();</span><br><span class="line">        <span class="keyword">yield</span> FormLoadedState(data: model);<span class="comment">//请求成功状态(data)</span></span><br><span class="line">      &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        <span class="keyword">yield</span> FormFailureState(error: error.toString());<span class="comment">//请求失败状态(error)</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>展示数据: (在页面build的时候, 就可以直接发送请求事件)</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///<span class="markdown">发送事件</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormPage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> repo = FormRepository();</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> MultiBlocProvider(</span><br><span class="line">      providers: [</span><br><span class="line">        BlocProvider&lt;FormBloc&gt;(</span><br><span class="line">          create: (ctx) =&gt; FormBloc(repo: repo)..add(FormDataRequestEvent()),<span class="comment">//发送请求事件</span></span><br><span class="line">        ),</span><br><span class="line">      ],</span><br><span class="line">      child: FormContent(),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///<span class="markdown">页面内容展示 (这里使用BlocConsumer, 防止listener,builder嵌套)</span></span></span><br><span class="line">body: Container(</span><br><span class="line">  color: Color(<span class="number">0xFFF6FAFF</span>),</span><br><span class="line">  child: BlocConsumer&lt;FormBloc, FormDataState&gt;(</span><br><span class="line">    listener: (context, state) &#123;</span><br><span class="line">      <span class="keyword">if</span> (state <span class="keyword">is</span> FormFailureState) &#123;<span class="comment">//请求失败-&gt;toast提示</span></span><br><span class="line">        ToastUtil.<span class="keyword">show</span>(state.error);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    builder: (context, state) &#123;</span><br><span class="line">      <span class="keyword">if</span> (state <span class="keyword">is</span> FormInProgressState) &#123;<span class="comment">//请求中-&gt;展示loading</span></span><br><span class="line">        <span class="keyword">return</span> LoadingIndicator(); </span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (state <span class="keyword">is</span> FormLoadedState) &#123;<span class="comment">//请求成功-&gt;根据data构建UI</span></span><br><span class="line">        <span class="keyword">var</span> model = state.data;</span><br><span class="line">        <span class="keyword">return</span> SingleChildScrollView( </span><br><span class="line">          child: Column(</span><br><span class="line">            children: &lt;Widget&gt;[</span><br><span class="line">              _sectionHeader(),</span><br><span class="line">              ContentItem(title: <span class="string">&#x27;选择区间&#x27;</span>, content: model.timeString, hasArrow: <span class="keyword">true</span>),</span><br><span class="line">              _divider(),</span><br><span class="line">              ContentItem(title: <span class="string">&#x27;选择地址&#x27;</span>, content: model.address, hasArrow: <span class="keyword">false</span>,),</span><br><span class="line">              _sectionHeader(),</span><br><span class="line">              TypeItem(items: model.types ?? [], onIndexTap: (index) =&gt; _setType(index),),</span><br><span class="line">              _divider(),</span><br><span class="line">              ContentItem(title: <span class="string">&#x27;选择次数&#x27;</span>, content: model.counString, hasArrow: <span class="keyword">false</span>,),</span><br><span class="line">              _buildSaveButton(),</span><br><span class="line">            ],</span><br><span class="line">          ),</span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> Container();</span><br><span class="line">    &#125;,</span><br><span class="line">  ),</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+
+<h2 id="更改"><a href="#更改" class="headerlink" title="更改"></a>更改</h2><p>我们在👆上面的展示的图中可以看到,  选择区间, 更改选择类型, 这些都是需要更改数据源来进行UI更改的,  根据<strong>单项数据流模式</strong>, 数据都应由bloc来进行管理, UI层面只进行响应式的更新</p>
+<p>所以, 我们最好不要在UI层面来操作数据源, 而是发送<code>选择区间</code>,<code>选择类型</code>的事件, 来让bloc进行数据源状态的改变</p>
+<p>定义两个Event:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//更新时间</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormUpdateTimeEvent</span> <span class="keyword">extends</span> <span class="title">FormEvent</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> start;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> end;</span><br><span class="line">  FormUpdateTimeEvent(&#123;<span class="keyword">this</span>.start, <span class="keyword">this</span>.end&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//更新类型</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormUpdateTypeEvent</span> <span class="keyword">extends</span> <span class="title">FormEvent</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">int</span> selectIndex;</span><br><span class="line">  FormUpdateTypeEvent(&#123;<span class="meta">@required</span> <span class="keyword">this</span>.selectIndex&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更改相应的State (更改后, bloc获取到的state中的data为最新的数据源)</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;FormDataState&gt; mapEventToState(</span><br><span class="line">    FormEvent event,</span><br><span class="line">    ) <span class="keyword">async</span>* &#123;</span><br><span class="line">  <span class="comment">//更新类型</span></span><br><span class="line">  <span class="keyword">if</span> (event <span class="keyword">is</span> FormUpdateTypeEvent) &#123;</span><br><span class="line">    <span class="keyword">if</span> (state <span class="keyword">is</span> FormLoadedState) &#123;</span><br><span class="line">      <span class="keyword">var</span> model = (state <span class="keyword">as</span> FormLoadedState).data;</span><br><span class="line">      model.types.forEach((e) =&gt; e.selected = <span class="keyword">false</span> ); <span class="comment">//列表中取消所有选中</span></span><br><span class="line">      model.types[event.selectIndex].selected = <span class="keyword">true</span>;  <span class="comment">//selectIndex下标数据置为选中</span></span><br><span class="line">      <span class="keyword">yield</span> (state <span class="keyword">as</span> FormLoadedState).copyWith(data: model); <span class="comment">//发送新数据源的FormLoadedState状态</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//更新时间</span></span><br><span class="line">  <span class="keyword">if</span> (event <span class="keyword">is</span> FormUpdateTimeEvent) &#123;</span><br><span class="line">    <span class="keyword">if</span> (state <span class="keyword">is</span> FormLoadedState) &#123;</span><br><span class="line">      <span class="keyword">var</span> model = (state <span class="keyword">as</span> FormLoadedState).data;</span><br><span class="line">      model.time.start = event.start;</span><br><span class="line">      model.time.end = event.end;</span><br><span class="line">      <span class="keyword">yield</span> (state <span class="keyword">as</span> FormLoadedState).copyWith(data: model);<span class="comment">//发送新数据源的FormLoadedState状态</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么我们只需要在页面UI层面, 发送定义的这两个事件即可</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///<span class="markdown">选择区间</span></span></span><br><span class="line"><span class="keyword">void</span> _setTime(<span class="built_in">String</span> start, <span class="built_in">String</span> end) &#123;</span><br><span class="line">  BlocProvider.of&lt;FormBloc&gt;(context).add(FormUpdateTimeEvent(start: start, end: end));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">///<span class="markdown">选择类型</span></span></span><br><span class="line"><span class="keyword">void</span> _setType(<span class="built_in">int</span> index) &#123;</span><br><span class="line">  BlocProvider.of&lt;FormBloc&gt;(context).add(FormUpdateTypeEvent(selectIndex: index));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>总结以上完成的显示和更改, 我们用的一个bloc和对应的多个状态, 其实我们也可以将所有逻辑包装成一个页面的state, 将所有的数据包含在一个state中, 所有的Event对应的State都为同一个, 那么事件的处理一般都为<code>yeild state.copyWith(..)</code>   </p>
+<p>伪代码如这样:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> DataState &#123;</span><br><span class="line">  init,</span><br><span class="line">  loading,</span><br><span class="line">  loaded,</span><br><span class="line">  fail,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormPageDataState</span> <span class="keyword">extends</span> <span class="title">FormDataState</span> </span>&#123;</span><br><span class="line">  FormModel data, <span class="comment">//数据</span></span><br><span class="line">  FormSubmit submitData,<span class="comment">//提交数据</span></span><br><span class="line">  DataState dataState,</span><br><span class="line">  ... <span class="comment">//等其他数据</span></span><br><span class="line">  </span><br><span class="line">  FormPageDataState copyWith(&#123;</span><br><span class="line">  FormModel data,</span><br><span class="line">  FormSubmit submitData,</span><br><span class="line">  DataState dataState,</span><br><span class="line">	&#125;) &#123;</span><br><span class="line">  <span class="keyword">return</span> FormLoadedState(</span><br><span class="line">    data: data ?? <span class="keyword">this</span>.data,</span><br><span class="line">    submitData: submitData ?? <span class="keyword">this</span>.submitData,</span><br><span class="line">    dataState: dataState ?? <span class="keyword">this</span>.dataState,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h2><p>提交这部分逻辑 , 我决定使用另一个bloc来处理逻辑<code>submit_bloc</code>, 我们会思考提交的状态有什么: </p>
+<p>默认状态, 提交请求中, 请求成功, 请求失败</p>
+<p>咦 ??  那所有的请求几乎都是这样, 那我们不如定义一个普通情况下都通用的状态State: </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@immutable</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">NetworkState</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NetworkInitState</span> <span class="keyword">extends</span> <span class="title">NetworkState</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NetworkSuccessState</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">NetworkState</span> </span>&#123; <span class="comment">//使用泛型定义数据</span></span><br><span class="line">  <span class="keyword">final</span> T data;</span><br><span class="line">  NetworkSuccessState(&#123;<span class="keyword">this</span>.data&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NetworkFailureState</span> <span class="keyword">extends</span> <span class="title">NetworkState</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> error;</span><br><span class="line">  NetworkFailureState(&#123;<span class="meta">@required</span> <span class="keyword">this</span>.error&#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NetworkInProgressState</span> <span class="keyword">extends</span> <span class="title">NetworkState</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们来看下提交的Bloc, 是不是简单多了: </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// <span class="markdown"><span class="bullet">-</span> Event</span></span></span><br><span class="line"><span class="comment">//提交</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubmitEvent</span> </span>&#123;</span><br><span class="line">  SubmitEvent(&#123;<span class="keyword">this</span>.submit&#125;);</span><br><span class="line">  FormSubmit submit;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// <span class="markdown"><span class="bullet">-</span> State -&gt; NetworkState</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/// <span class="markdown"><span class="bullet">-</span> Bloc</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubmitBloc</span> <span class="keyword">extends</span> <span class="title">Bloc</span>&lt;<span class="title">SubmitEvent</span>, <span class="title">NetworkState</span>&gt; </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  NetworkState <span class="keyword">get</span> initialState =&gt; NetworkInitState();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">final</span> FormRepository repo;</span><br><span class="line">  SubmitBloc(&#123;<span class="meta">@required</span> <span class="keyword">this</span>.repo&#125;) : <span class="keyword">assert</span>(repo != <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Stream&lt;NetworkState&gt; mapEventToState(</span><br><span class="line">      SubmitEvent event,</span><br><span class="line">      ) <span class="keyword">async</span>* &#123;</span><br><span class="line">    <span class="keyword">yield</span> NetworkInProgressState();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="built_in">bool</span> result = <span class="keyword">await</span> repo.saveForm(event.submit);</span><br><span class="line">      <span class="keyword">yield</span> NetworkSuccessState&lt;<span class="built_in">bool</span>&gt;(data: result);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">      <span class="keyword">yield</span> NetworkFailureState(error: error.toString());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h2><p>点击返回按钮的时候, 我们需要判断需要提交的数据是否变化了, 我们在该页面请求成功的State中, 添加一个初始化提交模型</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormLoadedState</span> <span class="keyword">extends</span> <span class="title">FormDataState</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> FormModel data;</span><br><span class="line">  <span class="keyword">final</span> FormSubmit initSubmit; <span class="comment">//初始化提交模型</span></span><br><span class="line">  FormLoadedState(&#123;<span class="keyword">this</span>.data, <span class="keyword">this</span>.initSubmit&#125;);</span><br><span class="line"></span><br><span class="line">  FormLoadedState copyWith(&#123;</span><br><span class="line">    FormModel data,</span><br><span class="line">    FormSubmit initSubmitModel,</span><br><span class="line">  &#125;) &#123;</span><br><span class="line">    <span class="keyword">return</span> FormLoadedState(</span><br><span class="line">      data: data ?? <span class="keyword">this</span>.data,</span><br><span class="line">      initSubmit: initSubmitModel ?? <span class="keyword">this</span>.initSubmit,</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//请求Event对应的State为: </span></span><br><span class="line"><span class="keyword">if</span> (event <span class="keyword">is</span> FormDataRequestEvent) &#123;</span><br><span class="line">  <span class="keyword">yield</span> FormInProgressState();</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> model = <span class="keyword">await</span> repo.fetchFormData();</span><br><span class="line">    <span class="keyword">yield</span> FormLoadedState(data: model, initSubmit: model.toSubmit()); <span class="comment">//state中增加一个initSubmit属性</span></span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="keyword">yield</span> FormFailureState(error: error.toString());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们看下UI层的事件处理: </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> WillPopScope(</span><br><span class="line">      onWillPop: () =&gt; _exitPage(context),</span><br><span class="line">      child: ...</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//退出</span></span><br><span class="line">Future&lt;<span class="built_in">bool</span>&gt; _exitPage(BuildContext context) <span class="keyword">async</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> state = BlocProvider.of&lt;FormBloc&gt;(context).state;</span><br><span class="line">  <span class="keyword">if</span> (state <span class="keyword">is</span> FormLoadedState) &#123;</span><br><span class="line">    <span class="keyword">if</span> (state.data.toSubmit() != state.initSubmit) &#123;</span><br><span class="line">      <span class="comment">//数据有变化, 弹窗</span></span><br><span class="line">      JLDialog.cancelConfirmTextDialog(context, content: <span class="string">&#x27;内容已经变更，是否保存？&#x27;</span>).then((confirm) &#123;</span><br><span class="line">        confirm ? _confirmSave() : Navigator.of(context).pop();</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2p1bGl2ZXItZC9ibG9jX2V4YW1wbGU=">完整示例代码在这里<i class="fa fa-external-link-alt"></i></span></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZlbGFuZ2VsL2Jsb2M=">https://github.com/felangel/bloc<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tLzRzZWVyL29wZW5mbHV0dGVyZWNvbW1lcmNlYXBw">https://github.com/4seer/openflutterecommerceapp<i class="fa fa-external-link-alt"></i></span></p>
+
+    </div>
+
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/reward_wechatpay.png" alt="Gao先生 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/reward_alipay.png" alt="Gao先生 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>原作者： </strong>Gao先生
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/" title="状态管理之Bloc初体验">https://gaoyuexit.github.io/2020/04/29/flutter-bloc/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/channel_wechat.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
+
+          <span class="label">WeChat</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/channel_qq.jpg">
+          <span class="icon">
+            <i class="fab fa-qq"></i>
+          </span>
+
+          <span class="label">QQ</span>
+        </a>
+      </div>
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Flutter/" rel="tag"># Flutter</a>
+              <a href="/tags/Bloc/" rel="tag"># Bloc</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/02/optimize-compilation-speed/" rel="prev" title="编译速度优化初探">
+                  <i class="fa fa-chevron-left"></i> 编译速度优化初探
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Gao先生</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">20k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">18 分钟</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
+
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+    <div class="pjax">
+
+
+<script>
+NexT.utils.loadComments('.utterances-container', () => {
+  const script = document.createElement('script');
+  script.src = 'https://utteranc.es/client.js';
+  script.setAttribute('repo', "gaoyuexit/gaoyu-blog-utterances");
+  script.setAttribute('issue-term', "title");
+  script.setAttribute('theme', "github-light");
+  script.crossOrigin = 'anonymous';
+  script.async = true;
+  document.querySelector('.utterances-container').appendChild(script);
+});
+</script>
+
+    </div>
+</body>
+</html>
