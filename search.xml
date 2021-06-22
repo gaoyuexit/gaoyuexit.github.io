@@ -111,107 +111,6 @@
       </tags>
   </entry>
   <entry>
-    <title>博客折腾小记</title>
-    <url>/2018/03/27/hexo-next-theme/</url>
-    <content><![CDATA[<blockquote>
-<p>最近又折腾了一下博客, 更换了主题</p>
-</blockquote>
-<span id="more"></span>
-
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><h3 id="配置主题文件"><a href="#配置主题文件" class="headerlink" title="配置主题文件"></a>配置主题文件</h3><p>根据 Hexo 官方的推荐，不要直接修改主题的配置文件</p>
-<blockquote>
-<p>The file should be placed in your site folder, both yml and json are supported. theme inside  _config.yml must be configured for Hexo to read _config.[theme].yml</p>
-</blockquote>
-<ol>
-<li><p>配置主题为 Next 主题</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">&quot;next&quot;</span></span><br></pre></td></tr></table></figure></li>
-<li><p>在 site 根目录新建 <code>_config.next.yml</code>文件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> touch _config.next.yml</span></span><br></pre></td></tr></table></figure></li>
-<li><p>打开 <code>theme/next/_config.yml</code>把需要修改的选项 copy 到 <code>_config.next.yml</code>中</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.next.yml</span></span><br><span class="line"><span class="comment"># 设置网站图标</span></span><br><span class="line"><span class="attr">favicon:</span></span><br><span class="line">  <span class="attr">small:</span> <span class="string">/favicon.ico</span></span><br><span class="line">  <span class="attr">medium:</span> <span class="string">/favicon.ico</span></span><br><span class="line">  <span class="attr">apple_touch_icon:</span> <span class="string">/apple-touch-icon.png</span></span><br><span class="line">  <span class="attr">safari_pinned_tab:</span> <span class="string">/apple-touch-icon.png</span></span><br></pre></td></tr></table></figure></li>
-<li><p>hexo启动时，会自动合并 <code>_config.next.yml</code> 与<code>theme/next/_config.yml</code> 的设置内容，从而达到配置主题的作用。</p>
-</li>
-</ol>
-<blockquote>
-<p>这样我们可以不直接修改theme/next中的内容, 每次拉取theme/next仓库中的更新时, 不会因修改了<code>_config.yml</code>而发生冲突。（每个主题都是一个独立的 <code>git</code>项目）</p>
-</blockquote>
-<h3 id="修改主题样式"><a href="#修改主题样式" class="headerlink" title="修改主题样式"></a>修改主题样式</h3><blockquote>
-<p> Hexo的NexT主题采用njk来作为HTML预处理器，使用styl来扩展css，所以可以简单的理解成 (html \ subset njk) ，(css \ subset styl)。它们扩充了相应的功能和语法支持来更加高效的架构网页，当然，我们也完全可以使用html和css的语法来美化我们的网页。</p>
-</blockquote>
-<p>因为每个主题都是一个独立的 <code>git</code>项目, 每个主题的安装大都为</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next</span></span><br></pre></td></tr></table></figure>
-
-<p>一般我们都会更改自己的主题,不推荐直接在themes/next仓库内直接进行修改, 这样在拉取最新的主题更新时, 我们的修改会被覆盖/冲突。</p>
-<h4 id="1-指定custom-file-path来修改"><a href="#1-指定custom-file-path来修改" class="headerlink" title="1. 指定custom_file_path来修改"></a>1. 指定custom_file_path来修改</h4><p>更改主题的方式hexo可以使用指定custom_file_path的样式文件styles.styl来进行样式覆盖, 比如head.njk文件来进行预处理</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">custom_file_path:</span></span><br><span class="line">  <span class="attr">head:</span> <span class="string">source/_data/head.njk</span></span><br><span class="line">  <span class="comment">#header: source/_data/header.njk</span></span><br><span class="line">  <span class="comment">#sidebar: source/_data/sidebar.njk</span></span><br><span class="line">  <span class="comment">#postMeta: source/_data/post-meta.njk</span></span><br><span class="line">  <span class="attr">postBodyEnd:</span> <span class="string">source/_data/post-body-end.njk</span></span><br><span class="line">  <span class="comment">#footer: source/_data/footer.njk</span></span><br><span class="line">  <span class="attr">bodyEnd:</span> <span class="string">source/_data/body-end.njk</span></span><br><span class="line">  <span class="attr">variable:</span> <span class="string">source/_data/variables.styl</span></span><br><span class="line">  <span class="attr">mixin:</span> <span class="string">source/_data/mixins.styl</span></span><br><span class="line">  <span class="attr">style:</span> <span class="string">source/_data/styles.styl</span></span><br></pre></td></tr></table></figure>
-
-<p>比如指定的source/_data/styles.styl来进行覆盖默认样式</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* header-页面背景 */</span></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">$body-bg-url</span>);</span><br><span class="line">  <span class="attribute">background-repeat</span>: repeat;</span><br><span class="line">  <span class="attribute">background-attachment</span>: fixed;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">@media</span> (<span class="attribute">prefers-color-scheme</span>: dark) &#123;</span><br><span class="line">    <span class="attribute">background-image</span>: none;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* sidebar-标题 */</span></span><br><span class="line"><span class="selector-class">.site-title</span> &#123;</span><br><span class="line">  <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-使用submodule管理主题"><a href="#2-使用submodule管理主题" class="headerlink" title="2. 使用submodule管理主题"></a>2. 使用submodule管理主题</h4><ol>
-<li>在GitHub上，把原作者的主题fork到我们自己的仓库中</li>
-<li>运行以下命令，把fork的NexT主题添加为我们博客的子模块</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git submodule add https://github.com/&lt;username&gt;/hexo-theme-next themes/next</span></span><br></pre></td></tr></table></figure>
-
-<p>我们可以把自己修改的主题提交到我们自己fork的仓库中进行存储</p>
-<p>submodule命令会在目录下多一个<code>.gitmodules</code>文件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat .gitmodules</span></span><br><span class="line">[submodule &quot;themes/next&quot;]</span><br><span class="line">    path = themes/next</span><br><span class="line">    url = git@github.com:gaoyuexit/hexo-theme-next</span><br></pre></td></tr></table></figure>
-
-<p>如何进行版本控制 ? </p>
-<p>1.推送至 GitHub</p>
-<p>当我们对主题（子模块）的内容进行修改时，Hexo 站点（主模块）只知道我们进行了修改，但是并不会管理我们具体进行了什么修改。</p>
-<blockquote>
-<p>因此，子模块和主模块需要分开 push，一般先推送子模块，后推送主模块。</p>
-</blockquote>
-<p>2.从原作者处更新主题</p>
-<p>如果使用的主题仍在被维护，那么我们就能从远程获取更新:</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git submodule update --remote</span></span><br></pre></td></tr></table></figure>
-
-<p>3.在另一台电脑上工作</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> --recursive &lt;your repo address&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>或者 (👆 和 👇 的命令功能是一样的)</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> &lt;your repo address&gt;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git submodule update --init</span></span><br></pre></td></tr></table></figure>
-
-<p>4.删除submodule</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git submodule deinit &lt;submodule-name&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="看板娘"><a href="#看板娘" class="headerlink" title="看板娘"></a>看板娘</h2><h3 id="简易版hexo-helper-live2d"><a href="#简易版hexo-helper-live2d" class="headerlink" title="简易版hexo-helper-live2d"></a>简易版<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0VZSE4vaGV4by1oZWxwZXItbGl2ZTJk">hexo-helper-live2d<i class="fa fa-external-link-alt"></i></span></h3><h3 id="功能版live2d-widget"><a href="#功能版live2d-widget" class="headerlink" title="功能版live2d-widget"></a>功能版<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N0ZXZlbmpvZXpoYW5nL2xpdmUyZC13aWRnZXQ=">live2d-widget<i class="fa fa-external-link-alt"></i></span></h3><p>以<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N0ZXZlbmpvZXpoYW5nL2xpdmUyZC13aWRnZXQ=">live2d-widget<i class="fa fa-external-link-alt"></i></span>为例, 先fork项目到自己的github仓库, 方便后续自己定制</p>
-<p>在/themes/next/layout/_layout.swig的<code>head</code>标签内添加如下代码</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/gh/gaoyuexit/live2d-widget@latest/autoload.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Pjax"><a href="#Pjax" class="headerlink" title="Pjax"></a><em>Pjax</em></h2><p><strong>单页应用</strong>（英语：single-page application，缩写<strong>SPA</strong>）是一种网络应用程序或网站的模型，它通过动态重写当前页面来与用户交互，而非传统的从服务器重新加载整个新页面。这种方法避免了页面之间切换打断用户体验，使应用程序更像一个桌面应用程序。<strong>与单页应用的交互通常涉及到与网页服务器后端的动态通信</strong>。说白了也就是通过 <code>pushState() + XHR</code> 技术实现的页面切换。</p>
-<p>而 Hexo 站点本身是个静态页面，无法发出动态请求，所以这里便引出了本文的主角 Pjax 框架了。其思路是通过拦截 <code>a</code> 链接，发送 XHR 请求，获取下级页面内容，接着替换指定区域完成整个过程。由于不是动态网站，Pjax 在请求过程中获取的是整个站点的 Html 内容，所以请求本身是无法达到加速的，但是可以减少页面中 JS 文件的重复请求，此外还可以利用一些预加载技术（预读缓存）和磁盘缓存进一步提升访问速度，实际体验效果是极佳的。</p>
-<p>我们的页面存在着大量的事件监听处理。不巧的是在替换内容时，会发生部分事件监听丢失了，异常、错误、功能失效等等。</p>
-<p>Javascript 部分自然是需要重新绑定注册的，但也不能无脑全部重新绑定, 否则会导致<strong>重复事件监听</strong>，它或许不会立即爆发危害，但是随着浏览页面的增加，事件绑定可能会越来越累加，影响效率，潜在造成错误等等。所以这里就需要利用 <code>send</code> 和 <code>complete</code> 这对事件了，合理利用，正确解决问题。</p>
-<p>比如, 开启我的博客开启<em>Pjax</em>属性, 博客会局部刷新了, 加载速度也变快了, 我的音乐播放器可以全局播放了,  但是每个页面的评论消息错乱了或消失了, 只有<code>command + r</code>刷新整个页面, 才能加载出来。</p>
-<p>解决, 在<code>/themes/next/layout/_scripts/pjax.swig</code>目录下, 根据这些函数重新调用加载<strong>拉取评论</strong>的方法</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;pjax:send&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;pjax:complete&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;pjax:error&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>因为以后博客的插件越来越多(搜索、评论、懒加载、图片弹出层、代码复制、背景幻灯片、音乐播放器、按钮涟漪动画、页面平滑滚动、公式、不蒜子计数、网址预加载),  这其中，有些无需处理，有些简单的封装成函数重新调用一下即可，而有些则就需要特意分析处理了。</p>
-<p>因此暂时将该功能先关闭掉了</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><span class="exturl" data-url="aHR0cHM6Ly9xaWFubGluZy5wdy9oZXhvLW9wdGltaXphdGlvbi8=">Hexo优化汇总<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZ2VtaW5pbGlnaHQuY24vMjAyMC8wOC8xNi9TVCUyMC0lMjAlRTglQkQlQUYlRTQlQkIlQjYlRTUlQjclQTUlRTUlODUlQjcvc3QtaGV4by1uZXh0LWN1c3RvbS8=">深度美化和定制Hexo和NexT方法<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8xNDk3MTAxOTE=">为 Hexo 博客更换主题<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9pbmtzcy5jbi9ibG9nLzgwYjVmMjM1Lw==">Hexo博客部署Pjax局部刷新<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9pY2FydXMuaGNsb25lbHkuY29tL3Bvc3RzLzQwOWQzMDkwLw==">Valine添加博主标签及评论微信、QQ通知<i class="fa fa-external-link-alt"></i></span></p>
-<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmhjbG9uZWx5LmNvbS8=">hclonely blog<i class="fa fa-external-link-alt"></i></span></p>
-]]></content>
-      <categories>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>Blog</tag>
-        <tag>Hexo</tag>
-        <tag>Next</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>编译速度优化初探</title>
     <url>/2020/04/02/optimize-compilation-speed/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>稍微调研下优化编译时长, 除硬件设备和Xcode一些编译配置项外, 大体有以下👇几种方案:</p>
@@ -333,6 +232,107 @@
       <tags>
         <tag>编译</tag>
         <tag>Cocoapods</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>博客折腾小记</title>
+    <url>/2018/03/27/hexo-next-theme/</url>
+    <content><![CDATA[<blockquote>
+<p>最近又折腾了一下博客, 更换了主题</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><h3 id="配置主题文件"><a href="#配置主题文件" class="headerlink" title="配置主题文件"></a>配置主题文件</h3><p>根据 Hexo 官方的推荐，不要直接修改主题的配置文件</p>
+<blockquote>
+<p>The file should be placed in your site folder, both yml and json are supported. theme inside  _config.yml must be configured for Hexo to read _config.[theme].yml</p>
+</blockquote>
+<ol>
+<li><p>配置主题为 Next 主题</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">&quot;next&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>在 site 根目录新建 <code>_config.next.yml</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> touch _config.next.yml</span></span><br></pre></td></tr></table></figure></li>
+<li><p>打开 <code>theme/next/_config.yml</code>把需要修改的选项 copy 到 <code>_config.next.yml</code>中</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.next.yml</span></span><br><span class="line"><span class="comment"># 设置网站图标</span></span><br><span class="line"><span class="attr">favicon:</span></span><br><span class="line">  <span class="attr">small:</span> <span class="string">/favicon.ico</span></span><br><span class="line">  <span class="attr">medium:</span> <span class="string">/favicon.ico</span></span><br><span class="line">  <span class="attr">apple_touch_icon:</span> <span class="string">/apple-touch-icon.png</span></span><br><span class="line">  <span class="attr">safari_pinned_tab:</span> <span class="string">/apple-touch-icon.png</span></span><br></pre></td></tr></table></figure></li>
+<li><p>hexo启动时，会自动合并 <code>_config.next.yml</code> 与<code>theme/next/_config.yml</code> 的设置内容，从而达到配置主题的作用。</p>
+</li>
+</ol>
+<blockquote>
+<p>这样我们可以不直接修改theme/next中的内容, 每次拉取theme/next仓库中的更新时, 不会因修改了<code>_config.yml</code>而发生冲突。（每个主题都是一个独立的 <code>git</code>项目）</p>
+</blockquote>
+<h3 id="修改主题样式"><a href="#修改主题样式" class="headerlink" title="修改主题样式"></a>修改主题样式</h3><blockquote>
+<p> Hexo的NexT主题采用njk来作为HTML预处理器，使用styl来扩展css，所以可以简单的理解成 (html \ subset njk) ，(css \ subset styl)。它们扩充了相应的功能和语法支持来更加高效的架构网页，当然，我们也完全可以使用html和css的语法来美化我们的网页。</p>
+</blockquote>
+<p>因为每个主题都是一个独立的 <code>git</code>项目, 每个主题的安装大都为</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next</span></span><br></pre></td></tr></table></figure>
+
+<p>一般我们都会更改自己的主题,不推荐直接在themes/next仓库内直接进行修改, 这样在拉取最新的主题更新时, 我们的修改会被覆盖/冲突。</p>
+<h4 id="1-指定custom-file-path来修改"><a href="#1-指定custom-file-path来修改" class="headerlink" title="1. 指定custom_file_path来修改"></a>1. 指定custom_file_path来修改</h4><p>更改主题的方式hexo可以使用指定custom_file_path的样式文件styles.styl来进行样式覆盖, 比如head.njk文件来进行预处理</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">custom_file_path:</span></span><br><span class="line">  <span class="attr">head:</span> <span class="string">source/_data/head.njk</span></span><br><span class="line">  <span class="comment">#header: source/_data/header.njk</span></span><br><span class="line">  <span class="comment">#sidebar: source/_data/sidebar.njk</span></span><br><span class="line">  <span class="comment">#postMeta: source/_data/post-meta.njk</span></span><br><span class="line">  <span class="attr">postBodyEnd:</span> <span class="string">source/_data/post-body-end.njk</span></span><br><span class="line">  <span class="comment">#footer: source/_data/footer.njk</span></span><br><span class="line">  <span class="attr">bodyEnd:</span> <span class="string">source/_data/body-end.njk</span></span><br><span class="line">  <span class="attr">variable:</span> <span class="string">source/_data/variables.styl</span></span><br><span class="line">  <span class="attr">mixin:</span> <span class="string">source/_data/mixins.styl</span></span><br><span class="line">  <span class="attr">style:</span> <span class="string">source/_data/styles.styl</span></span><br></pre></td></tr></table></figure>
+
+<p>比如指定的source/_data/styles.styl来进行覆盖默认样式</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* header-页面背景 */</span></span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">$body-bg-url</span>);</span><br><span class="line">  <span class="attribute">background-repeat</span>: repeat;</span><br><span class="line">  <span class="attribute">background-attachment</span>: fixed;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">@media</span> (<span class="attribute">prefers-color-scheme</span>: dark) &#123;</span><br><span class="line">    <span class="attribute">background-image</span>: none;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* sidebar-标题 */</span></span><br><span class="line"><span class="selector-class">.site-title</span> &#123;</span><br><span class="line">  <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-使用submodule管理主题"><a href="#2-使用submodule管理主题" class="headerlink" title="2. 使用submodule管理主题"></a>2. 使用submodule管理主题</h4><ol>
+<li>在GitHub上，把原作者的主题fork到我们自己的仓库中</li>
+<li>运行以下命令，把fork的NexT主题添加为我们博客的子模块</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git submodule add https://github.com/&lt;username&gt;/hexo-theme-next themes/next</span></span><br></pre></td></tr></table></figure>
+
+<p>我们可以把自己修改的主题提交到我们自己fork的仓库中进行存储</p>
+<p>submodule命令会在目录下多一个<code>.gitmodules</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat .gitmodules</span></span><br><span class="line">[submodule &quot;themes/next&quot;]</span><br><span class="line">    path = themes/next</span><br><span class="line">    url = git@github.com:gaoyuexit/hexo-theme-next</span><br></pre></td></tr></table></figure>
+
+<p>如何进行版本控制 ? </p>
+<p>1.推送至 GitHub</p>
+<p>当我们对主题（子模块）的内容进行修改时，Hexo 站点（主模块）只知道我们进行了修改，但是并不会管理我们具体进行了什么修改。</p>
+<blockquote>
+<p>因此，子模块和主模块需要分开 push，一般先推送子模块，后推送主模块。</p>
+</blockquote>
+<p>2.从原作者处更新主题</p>
+<p>如果使用的主题仍在被维护，那么我们就能从远程获取更新:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git submodule update --remote</span></span><br></pre></td></tr></table></figure>
+
+<p>3.在另一台电脑上工作</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> --recursive &lt;your repo address&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>或者 (👆 和 👇 的命令功能是一样的)</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> &lt;your repo address&gt;</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git submodule update --init</span></span><br></pre></td></tr></table></figure>
+
+<p>4.删除submodule</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git submodule deinit &lt;submodule-name&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="看板娘"><a href="#看板娘" class="headerlink" title="看板娘"></a>看板娘</h2><h3 id="简易版hexo-helper-live2d"><a href="#简易版hexo-helper-live2d" class="headerlink" title="简易版hexo-helper-live2d"></a>简易版<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0VZSE4vaGV4by1oZWxwZXItbGl2ZTJk">hexo-helper-live2d<i class="fa fa-external-link-alt"></i></span></h3><h3 id="功能版live2d-widget"><a href="#功能版live2d-widget" class="headerlink" title="功能版live2d-widget"></a>功能版<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N0ZXZlbmpvZXpoYW5nL2xpdmUyZC13aWRnZXQ=">live2d-widget<i class="fa fa-external-link-alt"></i></span></h3><p>以<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3N0ZXZlbmpvZXpoYW5nL2xpdmUyZC13aWRnZXQ=">live2d-widget<i class="fa fa-external-link-alt"></i></span>为例, 先fork项目到自己的github仓库, 方便后续自己定制</p>
+<p>在/themes/next/layout/_layout.swig的<code>head</code>标签内添加如下代码</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.jsdelivr.net/gh/gaoyuexit/live2d-widget@latest/autoload.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Pjax"><a href="#Pjax" class="headerlink" title="Pjax"></a><em>Pjax</em></h2><p><strong>单页应用</strong>（英语：single-page application，缩写<strong>SPA</strong>）是一种网络应用程序或网站的模型，它通过动态重写当前页面来与用户交互，而非传统的从服务器重新加载整个新页面。这种方法避免了页面之间切换打断用户体验，使应用程序更像一个桌面应用程序。<strong>与单页应用的交互通常涉及到与网页服务器后端的动态通信</strong>。说白了也就是通过 <code>pushState() + XHR</code> 技术实现的页面切换。</p>
+<p>而 Hexo 站点本身是个静态页面，无法发出动态请求，所以这里便引出了本文的主角 Pjax 框架了。其思路是通过拦截 <code>a</code> 链接，发送 XHR 请求，获取下级页面内容，接着替换指定区域完成整个过程。由于不是动态网站，Pjax 在请求过程中获取的是整个站点的 Html 内容，所以请求本身是无法达到加速的，但是可以减少页面中 JS 文件的重复请求，此外还可以利用一些预加载技术（预读缓存）和磁盘缓存进一步提升访问速度，实际体验效果是极佳的。</p>
+<p>我们的页面存在着大量的事件监听处理。不巧的是在替换内容时，会发生部分事件监听丢失了，异常、错误、功能失效等等。</p>
+<p>Javascript 部分自然是需要重新绑定注册的，但也不能无脑全部重新绑定, 否则会导致<strong>重复事件监听</strong>，它或许不会立即爆发危害，但是随着浏览页面的增加，事件绑定可能会越来越累加，影响效率，潜在造成错误等等。所以这里就需要利用 <code>send</code> 和 <code>complete</code> 这对事件了，合理利用，正确解决问题。</p>
+<p>比如, 开启我的博客开启<em>Pjax</em>属性, 博客会局部刷新了, 加载速度也变快了, 我的音乐播放器可以全局播放了,  但是每个页面的评论消息错乱了或消失了, 只有<code>command + r</code>刷新整个页面, 才能加载出来。</p>
+<p>解决, 在<code>/themes/next/layout/_scripts/pjax.swig</code>目录下, 根据这些函数重新调用加载<strong>拉取评论</strong>的方法</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;pjax:send&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;pjax:complete&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;pjax:error&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>因为以后博客的插件越来越多(搜索、评论、懒加载、图片弹出层、代码复制、背景幻灯片、音乐播放器、按钮涟漪动画、页面平滑滚动、公式、不蒜子计数、网址预加载),  这其中，有些无需处理，有些简单的封装成函数重新调用一下即可，而有些则就需要特意分析处理了。</p>
+<p>因此暂时将该功能先关闭掉了</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><span class="exturl" data-url="aHR0cHM6Ly9xaWFubGluZy5wdy9oZXhvLW9wdGltaXphdGlvbi8=">Hexo优化汇总<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZ2VtaW5pbGlnaHQuY24vMjAyMC8wOC8xNi9TVCUyMC0lMjAlRTglQkQlQUYlRTQlQkIlQjYlRTUlQjclQTUlRTUlODUlQjcvc3QtaGV4by1uZXh0LWN1c3RvbS8=">深度美化和定制Hexo和NexT方法<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8xNDk3MTAxOTE=">为 Hexo 博客更换主题<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9pbmtzcy5jbi9ibG9nLzgwYjVmMjM1Lw==">Hexo博客部署Pjax局部刷新<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9pY2FydXMuaGNsb25lbHkuY29tL3Bvc3RzLzQwOWQzMDkwLw==">Valine添加博主标签及评论微信、QQ通知<i class="fa fa-external-link-alt"></i></span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmhjbG9uZWx5LmNvbS8=">hclonely blog<i class="fa fa-external-link-alt"></i></span></p>
+]]></content>
+      <categories>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>Blog</tag>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>
