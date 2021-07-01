@@ -24,12 +24,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"gaoyuexit.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.2.2","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":true,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
-<meta name="description" content="最近又折腾了一下博客, 更换了主题">
+<meta name="description" content="最近又美化(折腾)了一下博客, 更换了主题, 升级了hexo-next到最新版本">
 <meta property="og:type" content="article">
 <meta property="og:title" content="博客折腾小记">
 <meta property="og:url" content="https://gaoyuexit.github.io/2018/03/27/hexo-next-theme/index.html">
 <meta property="og:site_name" content="Gao先生的小屋">
-<meta property="og:description" content="最近又折腾了一下博客, 更换了主题">
+<meta property="og:description" content="最近又美化(折腾)了一下博客, 更换了主题, 升级了hexo-next到最新版本">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-03-27T15:36:15.000Z">
 <meta property="article:modified_time" content="2018-03-27T15:36:15.000Z">
@@ -274,7 +274,7 @@
     </ul>
   </div>
 <!--网易云插件-->
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1432160163&auto=1&height=66"></iframe>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1432160163&auto=0&height=66"></iframe>
 <!--网易云插件--> 
         </div>
       </div>
@@ -353,7 +353,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4k</span>
+      <span>4.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -372,7 +372,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <blockquote>
-<p>最近又折腾了一下博客, 更换了主题</p>
+<p>最近又美化(折腾)了一下博客, 更换了主题, 升级了<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL25leHQtdGhlbWUvaGV4by10aGVtZS1uZXh0">hexo-next<i class="fa fa-external-link-alt"></i></span>到最新版本</p>
 </blockquote>
 <span id="more"></span>
 
@@ -443,7 +443,7 @@
 
 
 
-<h2 id="Pjax"><a href="#Pjax" class="headerlink" title="Pjax"></a><em>Pjax</em></h2><p><strong>单页应用</strong>（英语：single-page application，缩写<strong>SPA</strong>）是一种网络应用程序或网站的模型，它通过动态重写当前页面来与用户交互，而非传统的从服务器重新加载整个新页面。这种方法避免了页面之间切换打断用户体验，使应用程序更像一个桌面应用程序。<strong>与单页应用的交互通常涉及到与网页服务器后端的动态通信</strong>。说白了也就是通过 <code>pushState() + XHR</code> 技术实现的页面切换。</p>
+<h2 id="Pjax"><a href="#Pjax" class="headerlink" title="Pjax"></a>Pjax</h2><p><strong>单页应用</strong>（英语：single-page application，缩写<strong>SPA</strong>）是一种网络应用程序或网站的模型，它通过动态重写当前页面来与用户交互，而非传统的从服务器重新加载整个新页面。这种方法避免了页面之间切换打断用户体验，使应用程序更像一个桌面应用程序。<strong>与单页应用的交互通常涉及到与网页服务器后端的动态通信</strong>。说白了也就是通过 <code>pushState() + XHR</code> 技术实现的页面切换。</p>
 <p>而 Hexo 站点本身是个静态页面，无法发出动态请求，所以这里便引出了本文的主角 Pjax 框架了。其思路是通过拦截 <code>a</code> 链接，发送 XHR 请求，获取下级页面内容，接着替换指定区域完成整个过程。由于不是动态网站，Pjax 在请求过程中获取的是整个站点的 Html 内容，所以请求本身是无法达到加速的，但是可以减少页面中 JS 文件的重复请求，此外还可以利用一些预加载技术（预读缓存）和磁盘缓存进一步提升访问速度，实际体验效果是极佳的。</p>
 <p>我们的页面存在着大量的事件监听处理。不巧的是在替换内容时，会发生部分事件监听丢失了，异常、错误、功能失效等等。</p>
 <p>Javascript 部分自然是需要重新绑定注册的，但也不能无脑全部重新绑定, 否则会导致<strong>重复事件监听</strong>，它或许不会立即爆发危害，但是随着浏览页面的增加，事件绑定可能会越来越累加，影响效率，潜在造成错误等等。所以这里就需要利用 <code>send</code> 和 <code>complete</code> 这对事件了，合理利用，正确解决问题。</p>
@@ -452,7 +452,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;pjax:send&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;pjax:complete&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;pjax:error&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>因为以后博客的插件越来越多(搜索、评论、懒加载、图片弹出层、代码复制、背景幻灯片、音乐播放器、按钮涟漪动画、页面平滑滚动、公式、不蒜子计数、网址预加载),  这其中，有些无需处理，有些简单的封装成函数重新调用一下即可，而有些则就需要特意分析处理了。</p>
-<p>因此暂时将该功能先关闭掉了</p>
+<p>升级了最新的<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL25leHQtdGhlbWUvaGV4by10aGVtZS1uZXh0">hexo-next<i class="fa fa-external-link-alt"></i></span>主题之后, 作者已经做了这部分处理, 可以放心食用了</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><span class="exturl" data-url="aHR0cHM6Ly9xaWFubGluZy5wdy9oZXhvLW9wdGltaXphdGlvbi8=">Hexo优化汇总<i class="fa fa-external-link-alt"></i></span></p>
 <p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZ2VtaW5pbGlnaHQuY24vMjAyMC8wOC8xNi9TVCUyMC0lMjAlRTglQkQlQUYlRTQlQkIlQjYlRTUlQjclQTUlRTUlODUlQjcvc3QtaGV4by1uZXh0LWN1c3RvbS8=">深度美化和定制Hexo和NexT方法<i class="fa fa-external-link-alt"></i></span></p>
 <p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8xNDk3MTAxOTE=">为 Hexo 博客更换主题<i class="fa fa-external-link-alt"></i></span></p>
@@ -556,7 +556,7 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/04/02/optimize-compilation-speed/" rel="next" title="编译速度优化初探">
+                <a href="/2019/08/02/optimize-compilation-speed/" rel="next" title="编译速度优化初探">
                   编译速度优化初探 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>

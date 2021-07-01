@@ -27,22 +27,22 @@
 <meta name="description" content="前言 Flutter和SwiftUI是声明式和响应式编程在移动端的典范, 使用它们开发复杂业务, 状态管理是绕不过去的话题.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="状态管理之Bloc初体验">
-<meta property="og:url" content="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/index.html">
+<meta property="og:url" content="https://gaoyuexit.github.io/2020/03/22/flutter-bloc/index.html">
 <meta property="og:site_name" content="Gao先生的小屋">
 <meta property="og:description" content="前言 Flutter和SwiftUI是声明式和响应式编程在移动端的典范, 使用它们开发复杂业务, 状态管理是绕不过去的话题.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/bloc_page.gif">
-<meta property="og:image" content="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/bloc_architecture_full.png">
-<meta property="article:published_time" content="2020-04-29T08:58:41.000Z">
-<meta property="article:modified_time" content="2020-04-29T08:58:41.000Z">
+<meta property="og:image" content="https://gaoyuexit.github.io/2020/03/22/flutter-bloc/bloc_page.gif">
+<meta property="og:image" content="https://gaoyuexit.github.io/2020/03/22/flutter-bloc/bloc_architecture_full.png">
+<meta property="article:published_time" content="2020-03-22T08:58:41.000Z">
+<meta property="article:modified_time" content="2020-03-22T08:58:41.000Z">
 <meta property="article:author" content="Gao先生">
 <meta property="article:tag" content="Flutter">
 <meta property="article:tag" content="Bloc">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/bloc_page.gif">
+<meta name="twitter:image" content="https://gaoyuexit.github.io/2020/03/22/flutter-bloc/bloc_page.gif">
 
 
-<link rel="canonical" href="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/">
+<link rel="canonical" href="https://gaoyuexit.github.io/2020/03/22/flutter-bloc/">
 
 
 <script data-pjax class="page-configurations">
@@ -276,7 +276,7 @@
     </ul>
   </div>
 <!--网易云插件-->
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1432160163&auto=1&height=66"></iframe>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1432160163&auto=0&height=66"></iframe>
 <!--网易云插件--> 
         </div>
       </div>
@@ -311,7 +311,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/">
+    <link itemprop="mainEntityOfPage" href="https://gaoyuexit.github.io/2020/03/22/flutter-bloc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/kaka_avatar.gif">
@@ -335,7 +335,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-04-29 16:58:41" itemprop="dateCreated datePublished" datetime="2020-04-29T16:58:41+08:00">2020-04-29</time>
+      <time title="创建时间：2020-03-22 16:58:41" itemprop="dateCreated datePublished" datetime="2020-03-22T16:58:41+08:00">2020-03-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -381,14 +381,14 @@
 <span id="more"></span>
 <p>BLoC【Business Logic Component】设计模式是<code>paolo soares</code> 和 <code>cong hui</code> 在2018年<code>Google dartconf</code>上提出的，具体设计思想和于传统开发方式的比较, 可以参考<span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1QTEhsbjd3SGdQRQ==">YouTube演示视频<i class="fa fa-external-link-alt"></i></span></p>
 <p>BloC设计模式是Flutter解决状态管理的一种方案, 今天笔者将使用<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZlbGFuZ2VsL2Jsb2M=">bloc<i class="fa fa-external-link-alt"></i></span>(实现该设计模式且比较流行的库)来构建一个工程中完整且常见的页面,  作为Flutter初学者, 希望以此和大家交流, 共同进步,   你可以在<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2p1bGl2ZXItZC9ibG9jX2V4YW1wbGU=">这里<i class="fa fa-external-link-alt"></i></span>找到该项目的完整代码~</p>
-<img src="/2020/04/29/flutter-bloc/bloc_page.gif" class="" width="300" title="效果">
+<img src="/2020/03/22/flutter-bloc/bloc_page.gif" class="" width="300" title="效果">
 
 <h1 id="BLoC"><a href="#BLoC" class="headerlink" title="BLoC"></a>BLoC</h1><p>为什么选用BLoC ? </p>
 <blockquote>
 <p>BLoC将视图层与业务逻辑分离变得容易，从而使代码<strong>简单</strong>，<strong>可测</strong> 并且<strong>可重用</strong>, 更重要的是它以一种数据驱动的规范化流程来编写, 各个层级各司其职, 清晰分明</p>
 </blockquote>
 <p>如果你是Web开发者, 你肯定熟悉React+Redux、如果你是iOS开发者, 你可能会使用过RxSwift+ReactorKit,  如果你熟悉单项数据流开发模式, 那么你对BLoC就非常容易上手, BLoC就是用reactive programming方式构建应用, 一个由流构成的完全异步的世界。从而达到界面与业务分离的逻辑。</p>
-<img src="/2020/04/29/flutter-bloc/bloc_architecture_full.png" class="" title="架构">
+<img src="/2020/03/22/flutter-bloc/bloc_architecture_full.png" class="" title="架构">
 
 <p>通过bloc<span class="exturl" data-url="aHR0cHM6Ly9ibG9jbGlicmFyeS5kZXYvIy9hcmNoaXRlY3R1cmU/aWQ9cHJlc2VudGF0aW9uLWxheWVy">官网<i class="fa fa-external-link-alt"></i></span>介绍的流程图来看, 它将应用分为了三层: 展示层, 逻辑层, 数据层. 而通过流程来看, bloc逻辑层作为三层的中枢, 处理三个层级之间的交流.</p>
 <p>并且我们可以根据官方的命名规范来组织各个层级结构: </p>
@@ -508,7 +508,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://gaoyuexit.github.io/2020/04/29/flutter-bloc/" title="状态管理之Bloc初体验">https://gaoyuexit.github.io/2020/04/29/flutter-bloc/</a>
+      <a href="https://gaoyuexit.github.io/2020/03/22/flutter-bloc/" title="状态管理之Bloc初体验">https://gaoyuexit.github.io/2020/03/22/flutter-bloc/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
@@ -562,7 +562,7 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/04/02/optimize-compilation-speed/" rel="prev" title="编译速度优化初探">
+                <a href="/2019/08/02/optimize-compilation-speed/" rel="prev" title="编译速度优化初探">
                   <i class="fa fa-chevron-left"></i> 编译速度优化初探
                 </a>
             </div>
